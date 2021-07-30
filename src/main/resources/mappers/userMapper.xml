@@ -16,4 +16,14 @@
                #{salt},
                now())
     </insert>
+    <select id="getNicknameByNickname" parameterType="String" resultType="String">
+        SELECT nickname
+        FROM user
+        WHERE nickname = #{nickname}
+    </select>
+    <select id="getEmailByEmail" resultType="String">
+        SELECT email
+        FROM user
+        WHERE email = #{email}
+    </select>
 </mapper>

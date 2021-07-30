@@ -17,8 +17,13 @@ public class UserServiceImpl implements UserService{
     @Override
     public void signUp(User user) {
         //닉네임 존재여부
+        if(userMapper.getNicknameByNickname(user.getNickname())!= null){
+            //TODO 닉네임 중복 exception
+        }
         //이메일 존재여부
-        
+        if(userMapper.getEmailByEmail(user.getEmail())!=null){
+            //TODO 이메일 중복 exception
+        }
 
         //비밀번호 암호화
         user.setPw(BCrypt.hashpw(user.getPw(), BCrypt.gensalt()));
