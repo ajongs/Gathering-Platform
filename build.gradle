@@ -9,6 +9,12 @@ group = 'com'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
+//bootWar{
+//    archiveBaseName = 'ROOT'
+//    archiveFileName = 'ROOT.war'
+//
+//}
+
 repositories {
     mavenCentral()
 }
@@ -19,6 +25,13 @@ dependencies {
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.0'
     providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    implementation 'mysql:mysql-connector-java'
+    implementation 'io.jsonwebtoken:jjwt:0.9.0'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    implementation group: 'org.mindrot', name: 'jbcrypt', version: '0.3m'
 }
 
 test {
