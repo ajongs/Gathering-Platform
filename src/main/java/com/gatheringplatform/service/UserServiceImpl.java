@@ -16,7 +16,10 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void signUp(User user) {
-        //TODO 1. user password 암호화
+        //닉네임 존재여부
+        //이메일 존재여부
+        
+
         //비밀번호 암호화
         user.setPw(BCrypt.hashpw(user.getPw(), BCrypt.gensalt()));
 

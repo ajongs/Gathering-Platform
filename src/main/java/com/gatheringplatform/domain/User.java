@@ -1,6 +1,8 @@
 package com.gatheringplatform.domain;
 
-import com.example.bootex.annotation.ValidationGroups;
+
+
+import com.gatheringplatform.annotation.ValidationGroups;
 
 import javax.validation.constraints.*;
 import java.sql.Timestamp;
@@ -37,6 +39,13 @@ public class User {
     private Timestamp created_at;
     private Timestamp updated_at;
 
+    public long getNo() {
+        return no;
+    }
+
+    public void setNo(long no) {
+        this.no = no;
+    }
 
     public String getId() {
         return id;
