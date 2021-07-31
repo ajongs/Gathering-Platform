@@ -6,12 +6,12 @@
 
 <mapper namespace="com.gatheringplatform.mapper.UserMapper">
     <insert id="signUp" parameterType="User">
-        INSERT INTO user(no, id,pw,nickname,age,email,salt,created_at)
+        INSERT INTO user(no, id,pw,nickname,born,email,salt,created_at)
         values(null,
                #{id},
                #{pw},
                #{nickname},
-               #{age},
+               #{born},
                #{email},
                #{salt},
                now())

@@ -27,7 +27,7 @@ public class UserController {
     }
     //sign-up
     @PostMapping(value="/signUp")
-    public ResponseEntity signUp(@RequestBody @Validated(ValidationGroups.logIn.class) User user){
+    public ResponseEntity signUp(@RequestBody @Validated(ValidationGroups.signUp.class) User user){
         userService.signUp(user);
         return new ResponseEntity("회원가입이 완료되었습니다.", HttpStatus.OK);
     }
