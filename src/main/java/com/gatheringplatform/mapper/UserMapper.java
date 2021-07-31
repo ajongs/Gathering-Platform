@@ -10,4 +10,5 @@ public interface UserMapper {
     void signUp(User user);
     String getNicknameByNickname(String nickname);
     String getEmailByEmail(String email);
+    String getIdById(String Id);
 }

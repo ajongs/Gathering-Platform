@@ -18,7 +18,10 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void signUp(User user) {
-
+        //id 존재여부
+        if(userMapper.getIdById(user.getId()) != null){
+            throw new RequestException(ErrorEnum.ID_ALREADY_EXISTS);
+        }
         //닉네임 존재여부
         if(userMapper.getNicknameByNickname(user.getNickname()) != null){
             //TODO 닉네임 중복 exception

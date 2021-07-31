@@ -21,9 +21,14 @@
         FROM user
         WHERE nickname = #{nickname}
     </select>
-    <select id="getEmailByEmail" resultType="String">
+    <select id="getEmailByEmail" resultType="String" parameterType="String">
         SELECT email
         FROM user
         WHERE email = #{email}
+    </select>
+    <select id="getIdById" resultType="String" parameterType="String">
+        SELECT id
+        FROM user
+        WHERE id = #{id}
     </select>
 </mapper>

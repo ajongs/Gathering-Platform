@@ -10,22 +10,25 @@ import java.sql.Timestamp;
 public class User {
     private long no;
 
-    @Pattern(regexp = "^[a-zA-Z0-9]{5,15}$")
-    @Size(min=5, max=15, groups = {ValidationGroups.signUp.class})
+    @Pattern(regexp = "^[a-zA-Z0-9]{5,15}$", groups = {ValidationGroups.signUp.class}, message = "id에 특수문자를 사용할 수 없습니다.")
+    @Size(min=5, max=15, groups = {ValidationGroups.signUp.class}, message = "id는 최소 5글자, 최대 15글자 입니다.")
     @NotBlank(message = "사용 하실 id를 입력해주세요",groups = {ValidationGroups.signUp.class})
     private String id;
 
-    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[$@$!%*#?&])[A-Za-z0-9$@$!%*#?&]{8,15}$")
-    @Size(min=8, max=15, groups = {ValidationGroups.signUp.class})
+    //영문자,숫자,특수문자 최소 1개씩 사용해야함
+    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[$@$!%*#?&])[A-Za-z0-9$@$!%*#?&]{8,15}$", groups = {ValidationGroups.signUp.class},
+            message = "패스워드는 영문자,숫자,특수문자를 최소 1개씩 포함해야합니다.")
+    @Size(min=8, max=15, groups = {ValidationGroups.signUp.class}, message="비밀번호는 최소 8글자, 최대 15글자입니다.")
     @NotBlank(message = "비밀번호를 입력해주세요.",groups = {ValidationGroups.signUp.class})
     private String pw;
 
-    @Pattern(regexp = "^[a-zA-Z가-힇0-9]{1,15}$")
-    @Size(min=1, max=15, groups = {ValidationGroups.signUp.class})
+    @Pattern(regexp = "^[a-zA-Z가-힇0-9]{1,15}$", groups = {ValidationGroups.signUp.class}, message="닉네임으로 특수문자와 초성을 사용하실 수 없습니다.")
+    @Size(min=1, max=15, groups = {ValidationGroups.signUp.class}, message = "닉네임은 최소 1글자, 최대 15글자입니다.")
     @NotBlank(message = "사용 하실 닉네임을 입력해주세요",groups = {ValidationGroups.signUp.class})
     private String nickname;
 
-    @Pattern(regexp = "(19|20)\\\\d{2}(0[1-9]|1[012])(0[1-9]|[12][0-9]|3[01])(0[0-9]|1[0-9]|2[0-3])([0-5][0-9])([0-5][0-9])")
+    @Pattern(regexp = "(19|20)\\d{2}(0[1-9]|1[012])(0[1-9]|[12][0-9]|3[01])",
+            groups = {ValidationGroups.signUp.class}, message = "생년월일을 8자리로 입력해주세요.")
     @NotBlank(message = "생년월일을 입력해주세요.(8자리)",groups = {ValidationGroups.signUp.class})
     private String born;
 
