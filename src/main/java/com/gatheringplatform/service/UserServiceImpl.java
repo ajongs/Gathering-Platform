@@ -4,17 +4,30 @@ import com.gatheringplatform.domain.User;
 import com.gatheringplatform.enums.ErrorEnum;
 import com.gatheringplatform.exception.RequestException;
 import com.gatheringplatform.mapper.UserMapper;
+import com.gatheringplatform.util.Jwt;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
 public class UserServiceImpl implements UserService{
     @Autowired
     UserMapper userMapper;
+
+    @Autowired
+    Jwt jwt;
+
+    @Value("${accessToken}")
+    String accessToken;
+
+    @Value("${refreshToken")
+    String refreshToken;
 
     @Override
     public void signUp(User user) {
@@ -45,4 +58,28 @@ public class UserServiceImpl implements UserService{
         //mapper 호출
         userMapper.signUp(user);
     }
+
+    @Override
+    public Map<String, String> logIn(User user) {
+        //1.Mapper에서 DB user 가지고옴
+        String inputId = user.getId();
+        User dbUser = userMapper.getUserById(inputId);
+        if(dbUser == null) {
+            //로그인 아이디 틀림 exception
+            throw new RequestException(ErrorEnum.NOT_VALID_ID);
+        }
+        //2. 값비교
+        if(!BCrypt.checkpw(user.getPw(), dbUser.getPw())){
+            //비밀번호 오류
+            throw new RequestException(ErrorEnum.NOT_VALID_PW);
+        }
+        //3. 맞다면 토큰 발급
+        Map<String, String> newToken = new HashMap<>();
+        newToken.put(accessToken, jwt.createToken(user.getNickname(), user.getId(), accessToken));
+        newToken.put(refreshToken, jwt.createToken(user.getNickname(), user.getId(), refreshToken));
+
+        //4. 발급된 토큰 리턴
+            return newToken;
+    }
+
 }

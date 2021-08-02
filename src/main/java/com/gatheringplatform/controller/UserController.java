@@ -20,8 +20,8 @@ public class UserController {
     //login
     @PostMapping(value="/login")
     public ResponseEntity login(@RequestBody User user){
-
-        return new ResponseEntity("", HttpStatus.OK);
+        userService.logIn(user);
+        return new ResponseEntity("로그인이 되었습니다.", HttpStatus.OK);
     }
     //sign-up
     @PostMapping(value="/signUp")

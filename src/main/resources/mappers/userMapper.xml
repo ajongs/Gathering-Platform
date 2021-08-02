@@ -31,4 +31,14 @@
         FROM user
         WHERE id = #{id}
     </select>
+    <select id="getUserById" resultType="User" parameterType="String">
+        SELECT id, pw
+        FROM  User
+        Where id = #{id}
+    </select>
+    <select id="getSalt" resultType="String" parameterType="String">
+        SELECT salt
+        FROM USER
+        WHERE id = #{id}
+    </select>
 </mapper>

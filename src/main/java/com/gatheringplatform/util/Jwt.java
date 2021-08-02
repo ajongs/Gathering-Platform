@@ -1,20 +1,30 @@
 package com.gatheringplatform.util;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gatheringplatform.mapper.UserMapper;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.impl.Base64UrlCodec;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 @Component
-public class JWT {
-    private String key = "whatSecretKey";
+public class Jwt {
 
-    public String createToken(String name, String id, String subject){
+    @Autowired
+    UserMapper userMapper;
+
+    public String createToken(String nickname, String id, String subject){
+        String key = userMapper.getSalt(id);
+
         Calendar cal = Calendar.getInstance();
         if(subject == "accessToken"){
             cal.add(Calendar.HOUR, 1);
@@ -25,7 +35,7 @@ public class JWT {
 
         Map<String, Object> payload = new HashMap<>();
         payload.put("id",id);
-        payload.put("name",name);
+        payload.put("nickname",nickname);
 
         Claims claims = Jwts.claims(payload)
                 .setExpiration(new Date(cal.getTimeInMillis()))
@@ -41,7 +51,22 @@ public class JWT {
                 .compact();
     }
     public Boolean validateToken(String token){
-
+        if(!token.isEmpty()){
+            Claims claims = Jwts.parser().setSigningKey()
+        }
         return true;
+    }
+    private Map<String, Object> getPayload(String token){
+        String splitToken = token.split("\\.")[1];
+        //검사해서 1번째만 파싱
+        ObjectMapper ob = new ObjectMapper();
+        Map<String, Object> payload = null;
+        //base64URL로 디코딩
+        try {
+            payload = ob.readValue(Base64UrlCodec.BASE64.decode(splitToken), Map.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
