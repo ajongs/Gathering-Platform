@@ -19,9 +19,8 @@ public class UserController {
     UserService userService;
     //login
     @PostMapping(value="/login")
-    public ResponseEntity login(@RequestBody User user){
-        userService.logIn(user);
-        return new ResponseEntity("로그인이 되었습니다.", HttpStatus.OK);
+    public ResponseEntity login(@RequestBody @Validated(ValidationGroups.logIn.class) User user){
+        return new ResponseEntity(userService.logIn(user), HttpStatus.OK);
     }
     //sign-up
     @PostMapping(value="/signUp")

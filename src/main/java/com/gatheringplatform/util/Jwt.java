@@ -1,6 +1,7 @@
 package com.gatheringplatform.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gatheringplatform.exception.AccessTokenException;
 import com.gatheringplatform.mapper.UserMapper;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtParser;
@@ -8,6 +9,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.impl.Base64UrlCodec;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -22,11 +24,14 @@ public class Jwt {
     @Autowired
     UserMapper userMapper;
 
+    @Value("${accessToken}")
+    String accessToken;
+
     public String createToken(String nickname, String id, String subject){
         String key = userMapper.getSalt(id);
 
         Calendar cal = Calendar.getInstance();
-        if(subject == "accessToken"){
+        if(subject.equals(accessToken)){
             cal.add(Calendar.HOUR, 1);
         }
         else{
@@ -50,13 +55,13 @@ public class Jwt {
                 .setClaims(claims)
                 .compact();
     }
-    public Boolean validateToken(String token){
+    public Boolean validateToken(String token, boolean flag){
         if(!token.isEmpty()){
-            Claims claims = Jwts.parser().setSigningKey()
+            //Claims claims = Jwts.parser().setSigningKey()
         }
         return true;
     }
-    private Map<String, Object> getPayload(String token){
+    private Map<String, Object> getPayload(String token, boolean flag){
         String splitToken = token.split("\\.")[1];
         //검사해서 1번째만 파싱
         ObjectMapper ob = new ObjectMapper();
@@ -65,7 +70,11 @@ public class Jwt {
         try {
             payload = ob.readValue(Base64UrlCodec.BASE64.decode(splitToken), Map.class);
         } catch (IOException e) {
-            e.printStackTrace();
+            if(!flag){
+                //throw new AccessTokenException();
+            }
+            //else
+                //throw new RefreshTokenException();
         }
         return null;
     }

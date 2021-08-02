@@ -32,6 +32,15 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
     implementation group: 'org.mindrot', name: 'jbcrypt', version: '0.3m'
+    // https://mvnrepository.com/artifact/commons-io/commons-io
+    implementation 'commons-io:commons-io:2.6'
+    implementation 'commons-lang:commons-lang:2.6'
+    implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+    // https://mvnrepository.com/artifact/org.apache.httpcomponents/httpcore
+    implementation 'org.apache.httpcomponents:httpcore:4.3.2'
+
+    // https://mvnrepository.com/artifact/org.aspectj/aspectjweaver
+    implementation 'org.aspectj:aspectjweaver:1.9.5'
 }
 
 test {

@@ -8,8 +8,11 @@ public enum ErrorEnum {
     ID_ALREADY_EXISTS("SIGNUP_03", "이미 존재하는 아이디입니다.", HttpStatus.BAD_REQUEST),
     VALIDATION_FAIL("SIGNUP_04", "유효성 검사 실패하였습니다.", HttpStatus.BAD_REQUEST),
 
-    NOT_VALID_ID("LOGIN_01", "유효하지 않은 아이디입니다", HttpStatus.BAD_REQUEST),
-    NOT_VALID_PW("LOGIN_02", "비밀번호가 올바르지 않습니다.", HttpStatus.BAD_REQUEST)
+    INVALID_ID("LOGIN_01", "유효하지 않은 아이디입니다", HttpStatus.BAD_REQUEST),
+    INVALID_PW("LOGIN_02", "비밀번호가 올바르지 않습니다.", HttpStatus.BAD_REQUEST),
+
+    INVALID_ACCESSTOKEN("ACTOKEN_01", "유효하지 않은 AccessToken 입니다.", HttpStatus.BAD_REQUEST);
+
     ;
 
     private String code;

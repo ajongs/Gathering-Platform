@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService{
     @Value("${accessToken}")
     String accessToken;
 
-    @Value("${refreshToken")
+    @Value("${refreshToken}")
     String refreshToken;
 
     @Override
@@ -64,22 +64,26 @@ public class UserServiceImpl implements UserService{
         //1.Mapper에서 DB user 가지고옴
         String inputId = user.getId();
         User dbUser = userMapper.getUserById(inputId);
+
+        System.out.println(dbUser.getId());
         if(dbUser == null) {
             //로그인 아이디 틀림 exception
-            throw new RequestException(ErrorEnum.NOT_VALID_ID);
+            throw new RequestException(ErrorEnum.INVALID_ID);
         }
         //2. 값비교
         if(!BCrypt.checkpw(user.getPw(), dbUser.getPw())){
             //비밀번호 오류
-            throw new RequestException(ErrorEnum.NOT_VALID_PW);
+            throw new RequestException(ErrorEnum.INVALID_PW);
         }
-        //3. 맞다면 토큰 발급
-        Map<String, String> newToken = new HashMap<>();
-        newToken.put(accessToken, jwt.createToken(user.getNickname(), user.getId(), accessToken));
-        newToken.put(refreshToken, jwt.createToken(user.getNickname(), user.getId(), refreshToken));
-
-        //4. 발급된 토큰 리턴
+        else{
+            //3. 맞다면 토큰 발급
+            Map<String, String> newToken = new HashMap<>();
+            newToken.put(refreshToken, jwt.createToken(dbUser.getNickname(), dbUser.getId(), refreshToken));
+            newToken.put(accessToken, jwt.createToken(dbUser.getNickname(), dbUser.getId(), accessToken));
+            //4. 발급된 토큰 리턴
             return newToken;
+        }
+
     }
 
 }
