@@ -3,6 +3,7 @@ package com.gatheringplatform.controller;
 
 import com.gatheringplatform.annotation.ValidationGroups;
 import com.gatheringplatform.domain.User;
+import com.gatheringplatform.format.DefaultResponse;
 import com.gatheringplatform.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,6 +27,6 @@ public class UserController {
     @PostMapping(value="/signUp")
     public ResponseEntity signUp(@RequestBody @Validated(ValidationGroups.signUp.class) User user){
         userService.signUp(user);
-        return new ResponseEntity("회원가입이 완료되었습니다.", HttpStatus.OK);
+        return new ResponseEntity(new DefaultResponse("회원가입이 완료되었습니다.", HttpStatus.OK), HttpStatus.OK);
     }
 }
