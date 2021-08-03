@@ -19,7 +19,7 @@ public class UserController {
     @Autowired
     UserService userService;
     //login
-    @PostMapping(value="/login")
+    @PostMapping(value="/logIn")
     public ResponseEntity login(@RequestBody @Validated(ValidationGroups.logIn.class) User user){
         return new ResponseEntity(userService.logIn(user), HttpStatus.OK);
     }

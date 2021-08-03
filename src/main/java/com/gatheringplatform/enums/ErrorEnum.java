@@ -11,9 +11,16 @@ public enum ErrorEnum {
     INVALID_ID("LOGIN_01", "유효하지 않은 아이디입니다", HttpStatus.BAD_REQUEST),
     INVALID_PW("LOGIN_02", "비밀번호가 올바르지 않습니다.", HttpStatus.BAD_REQUEST),
 
-    INVALID_ACCESSTOKEN("ACTOKEN_01", "유효하지 않은 AccessToken 입니다.", HttpStatus.BAD_REQUEST);
+    INVALID_ACCESSTOKEN("ACTOKEN_01", "유효하지 않은 AccessToken 입니다.", HttpStatus.BAD_REQUEST),
+    INVALID_ACCESSTOKEN_SIGNATURE("ACTOKEN_02", "AccessToken의 서명이 올바르지 않습니다.", HttpStatus.BAD_REQUEST),
+    EXPRIED_ACCESSTOKEN("ACTOKEN_03", "AccessToken 이 만료되었습니다.", HttpStatus.BAD_REQUEST),
+    MALFORMED_ACCESSTOKEN("ACTOKEN_04", "올바르지 않은 AccessToken 의 구조입니다.", HttpStatus.BAD_REQUEST),
 
-    ;
+    INVALID_REFRESHTOKEN("RETOKEN_01", "유효하지 않은 RefershToken 입니다.", HttpStatus.BAD_REQUEST),
+    INVALID_REFRESHTOKEN_SIGNATRUE("RETOKEN_02", "RefreshToken 의 서명이 올바르지 않습니다.", HttpStatus.BAD_REQUEST),
+    EXPRIED_REFRESHTOKEN("RETOKEN_03", "RefreshToken 이 만료되었습니다.", HttpStatus.BAD_REQUEST),
+    MALFORMED_REFRESHTOKEN("RETOKEN_04", "올바르지 않은 RefreshToken 의 구조입니다.", HttpStatus.BAD_REQUEST);
+
 
     private String code;
     private String message;

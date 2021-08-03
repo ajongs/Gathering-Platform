@@ -1,18 +1,18 @@
 package com.gatheringplatform.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gatheringplatform.enums.ErrorEnum;
 import com.gatheringplatform.exception.AccessTokenException;
+import com.gatheringplatform.exception.RefreshTokenException;
 import com.gatheringplatform.mapper.UserMapper;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtParser;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.impl.Base64UrlCodec;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -56,12 +56,28 @@ public class Jwt {
                 .compact();
     }
     public Boolean validateToken(String token, boolean flag){
+        //TODO TRUE ACCESS
+        //TODO FALSE REFRESH
+        Map<String, Object> payload = getPayload(token, flag);
+        String key = userMapper.getSalt(payload.get("id").toString());
         if(!token.isEmpty()){
-            //Claims claims = Jwts.parser().setSigningKey()
+
         }
+        try{
+            Claims claims = Jwts.parser().setSigningKey(key.getBytes(StandardCharsets.UTF_8)).parseClaimsJws(token).getBody();
+        }catch (SignatureException e){
+            if(flag==true){ //access
+                throw new AccessTokenException(ErrorEnum.INVALID_ACCESSTOKEN_SIGNATURE);
+            }
+            else
+                throw new RefreshTokenException(ErrorEnum.INVALID_REFRESHTOKEN_SIGNATRUE);
+        }
+        //catch ()
         return true;
     }
     private Map<String, Object> getPayload(String token, boolean flag){
+        //TODO TRUE ACCESS
+        //TODO FALSE REFRESH
         String splitToken = token.split("\\.")[1];
         //검사해서 1번째만 파싱
         ObjectMapper ob = new ObjectMapper();
@@ -71,11 +87,12 @@ public class Jwt {
             payload = ob.readValue(Base64UrlCodec.BASE64.decode(splitToken), Map.class);
         } catch (IOException e) {
             if(!flag){
-                //throw new AccessTokenException();
+                throw new RefreshTokenException(ErrorEnum.INVALID_REFRESHTOKEN);
+
             }
-            //else
-                //throw new RefreshTokenException();
+            else
+                throw new AccessTokenException(ErrorEnum.INVALID_ACCESSTOKEN);
         }
-        return null;
+        return payload;
     }
 }

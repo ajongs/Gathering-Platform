@@ -65,7 +65,6 @@ public class UserServiceImpl implements UserService{
         String inputId = user.getId();
         User dbUser = userMapper.getUserById(inputId);
 
-        System.out.println(dbUser.getId());
         if(dbUser == null) {
             //로그인 아이디 틀림 exception
             throw new RequestException(ErrorEnum.INVALID_ID);
