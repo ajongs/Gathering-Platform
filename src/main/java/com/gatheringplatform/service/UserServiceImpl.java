@@ -18,16 +18,16 @@ import java.util.UUID;
 @Service
 public class UserServiceImpl implements UserService{
     @Autowired
-    UserMapper userMapper;
+    private UserMapper userMapper;
 
     @Autowired
-    Jwt jwt;
+    private Jwt jwt;
 
     @Value("${accessToken}")
-    String accessToken;
+    private String accessToken;
 
     @Value("${refreshToken}")
-    String refreshToken;
+    private String refreshToken;
 
     @Override
     public void signUp(User user) {

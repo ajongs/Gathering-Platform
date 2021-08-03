@@ -19,7 +19,7 @@ public class User {
     @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[$@$!%*#?&])[A-Za-z0-9$@$!%*#?&]{8,15}$", groups = {ValidationGroups.signUp.class,
     ValidationGroups.logIn.class},
             message = "패스워드는 영문자,숫자,특수문자를 최소 1개씩 포함해야합니다.")
-    @Size(min=8, max=15, groups = {ValidationGroups.signUp.class}, message="비밀번호는 최소 8글자, 최대 15글자입니다.")
+    @Size(min=8, max=15, groups = {ValidationGroups.signUp.class, ValidationGroups.logIn.class}, message="비밀번호는 최소 8글자, 최대 15글자입니다.")
     @NotBlank(message = "비밀번호를 입력해주세요.",groups = {ValidationGroups.signUp.class})
     private String pw;
 

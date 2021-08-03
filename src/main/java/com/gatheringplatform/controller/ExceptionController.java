@@ -30,7 +30,7 @@ public class ExceptionController {
             defaultException.setDetailTrace(e.getStackTrace()[0].toString());
         }
         if(defaultException == null){
-            System.out.println("----------null----------");
+            e.printStackTrace();
             return new ResponseEntity(new DefaultResponse("예기치 못한 예외가 발생 하였습니다.", HttpStatus.BAD_REQUEST), HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity(defaultException, HttpStatus.BAD_REQUEST);
