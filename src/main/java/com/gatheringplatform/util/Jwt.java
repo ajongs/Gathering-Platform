@@ -138,26 +138,19 @@ public class Jwt {
         return payload;
     }
     public boolean isEnoughExp(String token, boolean flag){
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DATE, 7);
         //현재 시간 기준으로 7일뒤 날짜
-        Date enoughDate = (new Date(cal.getTimeInMillis()));
-        System.out.println("---------enoughDate : "+enoughDate);
-
+        long enoughDate = System.currentTimeMillis() + 1000*60*60*24*7;
 
         //토큰에서 얻어온 만료날짜
-        //Date expDate = (Date) this.getPayload(token, flag).get("exp");
-        int expDate = (int) this.getPayload(token, flag).get("exp");
-        System.out.println("---------expDate : "+expDate);
-        /*
-        if(enoughDate > expDate ){
+        long expDate =Long.parseLong( this.getPayload(token, flag).get("exp").toString() ) * 1000;
+
+        if(enoughDate > expDate ) {
             //expDate 가 7일보다 적게 남음
             return false;
         }
         else{
             //expDate 충분함
             return true;
-        }*/
-        return true;
+        }
     }
 }
