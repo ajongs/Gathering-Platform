@@ -64,7 +64,6 @@ public class Jwt {
         //TODO FALSE REFRESH
         Map<String, Object> payload = getPayload(token, flag);
         String key = userMapper.getSalt(payload.get("id").toString());
-        System.out.println("-----------------"+key);
 
 
         if(!token.isEmpty()){
@@ -140,7 +139,6 @@ public class Jwt {
     public boolean isEnoughExp(String token, boolean flag){
         //현재 시간 기준으로 7일뒤 날짜
         long enoughDate = System.currentTimeMillis() + 1000*60*60*24*7;
-
         //토큰에서 얻어온 만료날짜
         long expDate =Long.parseLong( this.getPayload(token, flag).get("exp").toString() ) * 1000;
 
