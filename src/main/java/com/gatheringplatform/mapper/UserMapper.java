@@ -13,4 +13,5 @@ public interface UserMapper {
     String getIdById(String id);
     User getUserById(String id);
     String getSalt(String id);
+
 }

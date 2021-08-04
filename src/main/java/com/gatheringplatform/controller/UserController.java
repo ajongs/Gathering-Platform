@@ -6,7 +6,6 @@ import com.gatheringplatform.annotation.ValidationGroups;
 import com.gatheringplatform.domain.User;
 import com.gatheringplatform.format.DefaultResponse;
 import com.gatheringplatform.service.UserService;
-import com.sun.deploy.net.HttpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -18,7 +17,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
-@CrossOrigin(origins = "*", allowedHeaders = "*", allowCredentials = "true")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping(value = "/user")
 public class UserController {
@@ -46,5 +45,9 @@ public class UserController {
     @PostMapping(value = "/check")
     public ResponseEntity check(){
         return new ResponseEntity(new DefaultResponse("@Auth 잘됌", HttpStatus.OK), HttpStatus.OK);
+    }
+    @PostMapping(value = "/refresh")
+    public ResponseEntity refresh(){
+        return new ResponseEntity(userService.refresh(), HttpStatus.OK);
     }
 }

@@ -2,6 +2,7 @@ package com.gatheringplatform.service;
 
 import com.gatheringplatform.domain.User;
 import com.gatheringplatform.enums.ErrorEnum;
+import com.gatheringplatform.exception.RefreshTokenException;
 import com.gatheringplatform.exception.RequestException;
 import com.gatheringplatform.mapper.UserMapper;
 import com.gatheringplatform.util.Jwt;
@@ -9,7 +10,10 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,6 +32,9 @@ public class UserServiceImpl implements UserService{
 
     @Value("${refreshToken}")
     private String refreshToken;
+
+    @Value("${token.header-name}")
+    private String header;
 
     @Override
     public void signUp(User user) {
@@ -85,4 +92,26 @@ public class UserServiceImpl implements UserService{
 
     }
 
+    @Override
+    public Map<String, String> refresh() {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+
+        String token = request.getHeader(header);
+        Boolean flag = jwt.validateToken(token, false);
+        if(flag){
+            //true는 access 토큰임. refresh() 를 요청할땐 refresh 토큰으로 요청해야함
+            throw new RefreshTokenException(ErrorEnum.INVALID_REFRESHTOKEN);
+        }
+        else{
+            Map<String, Object> payload = jwt.getPayload(token, false);
+            Map<String, String> newAccessToken = new HashMap<>();
+            newAccessToken.put(accessToken, jwt.createToken(payload.get("nickname").toString(), payload.get("id").toString(), accessToken));
+
+            // refresh 토큰 만료 날짜가 7일이상 충분하지 않으면 refresh 토큰도 같이 발급
+            if(!jwt.isEnoughExp(token, false)){
+                newAccessToken.put(refreshToken, jwt.createToken(payload.get("nickname").toString(), payload.get("id").toString(), refreshToken));
+            }
+            return newAccessToken;
+        }
+    }
 }
