@@ -44,6 +44,7 @@ public class UserController {
     @Auth
     @PostMapping(value = "/check")
     public ResponseEntity check(){
+        System.out.println("pullRequest");
         return new ResponseEntity(new DefaultResponse("@Auth 잘됌", HttpStatus.OK), HttpStatus.OK);
     }
     @PostMapping(value = "/refresh")
