@@ -3,20 +3,13 @@ package com.gatheringplatform.domain;
 import com.gatheringplatform.annotation.ReplyGroups;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
 import java.sql.Timestamp;
-import java.util.LinkedList;
 
 public class Reply {
 
-    private class Node {
-        Node child;
-        Node next;
-    }
-
-    private long postNo;
-    private long replyNo;
-    LinkedList<Node> ll = new LinkedList<Node>();
+    private long post_no; // 게시물 번호
+    private long reply_no; // 댓글 번호
+    private long parent_reply_no; // 부모 댓글의 번호(대댓글일 경우에, 자신의 부모 댓글 번호를 말한다. 만약, root 댓글일 경우에는 0으로 한다.)
 
     // 내용
     @NotBlank(message = "댓글 내용을 적어주세요.", groups = {ReplyGroups.class})
@@ -25,11 +18,7 @@ public class Reply {
     // 댓글 쓴 사람
     private String writer;
 
-    // 작성일
+    // 작성 시간
     private Timestamp created_at;
-
-    // primary key(게시물 번호, 댓글 번호)
-
-
 
 }
