@@ -22,7 +22,11 @@ public enum ErrorEnum {
     INVALID_REFRESHTOKEN_SIGNATRUE("RETOKEN_02", "RefreshToken 의 서명이 올바르지 않습니다.", HttpStatus.BAD_REQUEST),
     EXPRIED_REFRESHTOKEN("RETOKEN_03", "RefreshToken 이 만료되었습니다.", HttpStatus.BAD_REQUEST),
     MALFORMED_REFRESHTOKEN("RETOKEN_04", "올바르지 않은 RefreshToken 의 구조입니다.", HttpStatus.BAD_REQUEST),
-    REFRESHTOKEN_NULL("RETOKEN_05", "요청하신 RefreshToken 이 비어있습니다. 헤더를 확인하세요", HttpStatus.BAD_REQUEST)
+    REFRESHTOKEN_NULL("RETOKEN_05", "요청하신 RefreshToken 이 비어있습니다. 헤더를 확인하세요", HttpStatus.BAD_REQUEST),
+
+    //aws
+    THUMBNAIL_NULL("AWSS3_01","사진을 선택하지 않으셨습니다. 사진을 선택해주세요. ",HttpStatus.BAD_REQUEST),
+    INVALID_THUMBNAIL("AWSS3_02", "유효하지 않은 사진 파일 확장자입니다.", HttpStatus.BAD_REQUEST)
     ;
 
 
