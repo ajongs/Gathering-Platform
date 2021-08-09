@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gatheringplatform.mapper.ReplyMapper">
+    <select id="getRepliesByNumber" resultType="Reply" parameterType="Long">
+        SELECT *
+        FROM post_reply
+        WHERE post_no = #{postNo}
+    </select>
+    <select id="getReplyByNumber" resultType="Reply" parameterType="Long">
+        SELECT *
+        FROM post_reply
+        WHERE post_no = #{postNo}
+          AND reply_no = #{replyNo}
+    </select>
+    <select id="getPostNoByNumber" resultType="Long" parameterType="Long">
+        SELECT post_no
+        FROM post_reply
+        WHERE post_no = #{postNo}
+          AND reply_no = #{replyNo}
+    </select>
+    <select id="getReplyNoByNumber" resultType="Long" parameterType="Long">
+        SELECT reply_no
+        FROM post_reply
+        WHERE post_no = #{postNo}
+          AND reply_no = #{replyNo}
+    </select>
+    <select id="getParentReplyNoByNumber" resultType="Long" parameterType="Long">
+        SELECT parent_reply_no
+        FROM post_reply
+        WHERE post_no = #{postNo}
+          AND reply_no = #{replyNo}
+    </select>
+    <select id="getContentByNumber" resultType="String" parameterType="Long">
+        SELECT content
+        FROM post_reply
+        WHERE post_no = #{postNo}
+          AND reply_no = #{replyNo}
+    </select>
+    <select id="getWriterByNumber" resultType="String" parameterType="Long">
+        SELECT writer
+        FROM post_reply
+        WHERE post_no = #{postNo}
+          AND reply_no = #{replyNo}
+    </select>
+    <select id="getCreatedAtByNumber" resultType="Long" parameterType="Long">
+        SELECT created_at
+        FROM post_reply
+        WHERE post_no = #{postNo}
+          AND reply_no = #{replyNo}
+    </select>
+
+    <insert id="insert" parameterType="Reply">
+        INSERT INTO post_reply(post_no, reply_no, parent_reply_no, content, writer, create_at)
+        values (#{postNo},
+                #{replyNo},
+                #{parent_reply_no},
+                #{content},
+                #{writer},
+                now())
+    </insert>
+
+    <update id="update" parameterType="Reply">
+        UPDATE post_reply
+        SET content = #{content}
+        WHERE post_no = #{postNo}
+          AND reply_no = #{replyNo}
+    </update>
+
+    <delete id="delete" parameterType="Reply">
+        DELETE
+        FROM post_reply
+        WHERE post_no = #{postNo}
+          AND reply_no = #{replyNo}
+    </delete>
+</mapper>

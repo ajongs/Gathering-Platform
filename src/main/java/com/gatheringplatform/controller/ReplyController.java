@@ -24,7 +24,7 @@ public class ReplyController {
     // 전체 댓글 보기
     @GetMapping
     public ResponseEntity view(@RequestParam long postNo, HttpServletResponse response) {
-        return new ResponseEntity(replyService.view(postNo), HttpStatus.OK);
+        return new ResponseEntity(replyService.viewAll(postNo), HttpStatus.OK);
     }
 
     // 댓글 등록
