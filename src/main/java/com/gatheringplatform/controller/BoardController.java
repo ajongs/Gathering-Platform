@@ -1,5 +1,6 @@
 package com.gatheringplatform.controller;
 
+import com.gatheringplatform.domain.Board;
 import com.gatheringplatform.exception.DefaultException;
 import com.gatheringplatform.format.DefaultResponse;
 import com.gatheringplatform.service.BoardService;
@@ -22,4 +23,8 @@ public class BoardController {
         return new ResponseEntity(boardService.uploadThumbNail(multipartFile), HttpStatus.OK);
     }
     //텍스트 에디터 및 게시판 등록관련 api
+    @PostMapping(value = "/")
+    public ResponseEntity insertBoard(@RequestBody Board board){
+        return new ResponseEntity("", HttpStatus.OK);
+    }
 }

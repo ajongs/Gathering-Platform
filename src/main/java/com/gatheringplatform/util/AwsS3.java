@@ -24,6 +24,7 @@ public class AwsS3 {
     public String upload(MultipartFile multipartFile) throws IOException {
         String filename = UUID.randomUUID() + multipartFile.getOriginalFilename();
         //TODO 메타데이터에 대해서 알아보기 new ObjectMetadata();
+        // cloud Front 사용시 설정해줘야 할것있음
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentLength(multipartFile.getSize());
         metadata.setContentType(multipartFile.getContentType());

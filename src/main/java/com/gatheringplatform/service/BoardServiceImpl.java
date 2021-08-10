@@ -1,5 +1,6 @@
 package com.gatheringplatform.service;
 
+import com.gatheringplatform.domain.Board;
 import com.gatheringplatform.enums.ErrorEnum;
 import com.gatheringplatform.exception.RequestException;
 import com.gatheringplatform.util.AwsS3;
@@ -27,5 +28,10 @@ public class BoardServiceImpl implements BoardService{
         Map<String, String> url = new HashMap<>();
         url.put("URL", awsS3.upload(multipartFile));
         return url;
+    }
+
+    @Override
+    public String insertBoard(Board board) {
+        return null;
     }
 }
