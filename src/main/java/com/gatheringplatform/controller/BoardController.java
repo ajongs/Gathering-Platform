@@ -1,6 +1,8 @@
 package com.gatheringplatform.controller;
 
+import com.gatheringplatform.annotation.Auth;
 import com.gatheringplatform.domain.Board;
+import com.gatheringplatform.domain.BoardPlan;
 import com.gatheringplatform.exception.DefaultException;
 import com.gatheringplatform.format.DefaultResponse;
 import com.gatheringplatform.service.BoardService;
@@ -18,13 +20,22 @@ public class BoardController {
     @Autowired
     BoardService boardService;
     //게시물 섬네일 업로드 api
+    @Auth
     @PostMapping(value="/thumbnail")
     public ResponseEntity uploadThumbnail(MultipartFile multipartFile) throws IOException {
         return new ResponseEntity(boardService.uploadThumbNail(multipartFile), HttpStatus.OK);
     }
     //텍스트 에디터 및 게시판 등록관련 api
+    @Auth
     @PostMapping(value = "/")
     public ResponseEntity insertBoard(@RequestBody Board board){
-        return new ResponseEntity("", HttpStatus.OK);
+        return new ResponseEntity(boardService.insertBoard(board), HttpStatus.OK);
     }
+    //상세 일정 등록 api
+    @Auth
+    @PostMapping(value = "/detailPlan")
+    public ResponseEntity insertPlan(@RequestBody BoardPlan boardPlan){
+        return new ResponseEntity(boardService.insertPlan(boardPlan), HttpStatus.OK);
+    }
+    //게시판 조회 api, 페이징 처리
 }

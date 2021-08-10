@@ -114,4 +114,24 @@ public class UserServiceImpl implements UserService{
             return newAccessToken;
         }
     }
+
+    @Override
+    public String getLoginNickname() {
+        Map<String, Object> payload = getTokenPayload();
+        return payload.get("nickname").toString();
+    }
+
+    private Map<String, Object> getTokenPayload(){
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+
+        String token = request.getHeader(header);
+        Boolean flag = jwt.validateToken(token, false);
+        if(flag){
+            throw new RefreshTokenException(ErrorEnum.INVALID_REFRESHTOKEN);
+        }
+        else{
+            return jwt.getPayload(token, false);
+        }
+
+    }
 }

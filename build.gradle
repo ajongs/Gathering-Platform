@@ -49,6 +49,8 @@ dependencies {
     implementation 'org.aspectj:aspectjweaver:1.9.5'
     // https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-s3
     implementation 'com.amazonaws:aws-java-sdk-s3:1.11.1034'
+    // https://mvnrepository.com/artifact/org.jsoup/jsoup
+    implementation 'org.jsoup:jsoup:1.13.1'
 
 
 }

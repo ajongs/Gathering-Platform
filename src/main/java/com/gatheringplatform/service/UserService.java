@@ -8,4 +8,5 @@ public interface UserService {
     void signUp(User user);
     Map<String, String> logIn(User user);
     Map<String, String> refresh();
+    String getLoginNickname();
 }
