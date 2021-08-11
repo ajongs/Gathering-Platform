@@ -2,6 +2,7 @@ package com.gatheringplatform.service;
 
 import com.gatheringplatform.domain.User;
 import com.gatheringplatform.enums.ErrorEnum;
+import com.gatheringplatform.exception.AccessTokenException;
 import com.gatheringplatform.exception.RefreshTokenException;
 import com.gatheringplatform.exception.RequestException;
 import com.gatheringplatform.mapper.UserMapper;
@@ -125,12 +126,12 @@ public class UserServiceImpl implements UserService{
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 
         String token = request.getHeader(header);
-        Boolean flag = jwt.validateToken(token, false);
-        if(flag){
-            throw new RefreshTokenException(ErrorEnum.INVALID_REFRESHTOKEN);
+        Boolean flag = jwt.validateToken(token, true);
+        if(!flag){
+            throw new AccessTokenException(ErrorEnum.INVALID_ACCESSTOKEN);
         }
         else{
-            return jwt.getPayload(token, false);
+            return jwt.getPayload(token, true);
         }
 
     }
