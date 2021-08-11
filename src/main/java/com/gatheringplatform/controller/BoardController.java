@@ -2,9 +2,6 @@ package com.gatheringplatform.controller;
 
 import com.gatheringplatform.annotation.Auth;
 import com.gatheringplatform.domain.Board;
-import com.gatheringplatform.domain.BoardPlan;
-import com.gatheringplatform.exception.DefaultException;
-import com.gatheringplatform.format.DefaultResponse;
 import com.gatheringplatform.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,14 +25,8 @@ public class BoardController {
     //텍스트 에디터 및 게시판 등록관련 api
     @Auth
     @PostMapping(value = "/")
-    public ResponseEntity insertBoard(@RequestBody Board board){
+    public ResponseEntity insertBoard(@RequestBody Board board) throws IOException {
         return new ResponseEntity(boardService.insertBoard(board), HttpStatus.OK);
-    }
-    //상세 일정 등록 api
-    @Auth
-    @PostMapping(value = "/detailPlan")
-    public ResponseEntity insertPlan(@RequestBody BoardPlan boardPlan){
-        return new ResponseEntity(boardService.insertPlan(boardPlan), HttpStatus.OK);
     }
     //게시판 조회 api, 페이징 처리
 }

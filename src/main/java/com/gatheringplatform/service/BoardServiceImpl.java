@@ -1,7 +1,6 @@
 package com.gatheringplatform.service;
 
 import com.gatheringplatform.domain.Board;
-import com.gatheringplatform.domain.BoardPlan;
 import com.gatheringplatform.enums.ErrorEnum;
 import com.gatheringplatform.exception.RequestException;
 import com.gatheringplatform.mapper.BoardMapper;
@@ -67,8 +66,4 @@ public class BoardServiceImpl implements BoardService{
         return "게시물이 성공적으로 등록되었습니다.";
     }
 
-    @Override
-    public String insertPlan(BoardPlan boardPlan) {
-        return "상세 일정이 등록되었습니다.";
-    }
 }
