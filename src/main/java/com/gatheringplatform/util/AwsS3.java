@@ -1,6 +1,5 @@
 package com.gatheringplatform.util;
 
-import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
@@ -21,7 +20,7 @@ public class AwsS3 {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
-    public String upload(MultipartFile multipartFile) throws IOException {
+    public String upload(MultipartFile multipartFile, Boolean isThumbnail) throws IOException {
         String filename = UUID.randomUUID() + multipartFile.getOriginalFilename();
         //TODO 메타데이터에 대해서 알아보기 new ObjectMetadata();
         // cloud Front 사용시 설정해줘야 할것있음
@@ -29,10 +28,17 @@ public class AwsS3 {
         metadata.setContentLength(multipartFile.getSize());
         metadata.setContentType(multipartFile.getContentType());
 
-        PutObjectRequest request = new PutObjectRequest(bucket+"/thumbnail", filename, multipartFile.getInputStream(), null)
+        String bucketName;
+        if(isThumbnail){
+            bucketName = bucket +"/thumbnail";
+        }
+        else{
+            bucketName = bucket;
+        }
+        PutObjectRequest request = new PutObjectRequest(bucketName, filename, multipartFile.getInputStream(), null)
                 .withCannedAcl(CannedAccessControlList.PublicRead);
         amazonS3.putObject(request);
 
-        return amazonS3.getUrl(bucket, filename).toString();
+        return amazonS3.getUrl(bucketName, filename).toString();
     }
 }
