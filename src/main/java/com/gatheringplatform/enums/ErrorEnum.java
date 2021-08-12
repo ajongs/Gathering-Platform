@@ -3,7 +3,7 @@ package com.gatheringplatform.enums;
 import org.springframework.http.HttpStatus;
 
 public enum ErrorEnum {
-    NICKNAME_ALREADY_EXISTS("SIGNUP01","이미 존재하는 닉네임입니다.",HttpStatus.BAD_REQUEST),
+    NICKNAME_ALREADY_EXISTS("SIGNUP_01","이미 존재하는 닉네임입니다.",HttpStatus.BAD_REQUEST),
     EMAIL_ALREADY_EXISTS("SIGNUP_02", "이미 가입되어 있는 이메일입니다.", HttpStatus.BAD_REQUEST),
     ID_ALREADY_EXISTS("SIGNUP_03", "이미 존재하는 아이디입니다.", HttpStatus.BAD_REQUEST),
     VALIDATION_FAIL("SIGNUP_04", "유효성 검사 실패하였습니다.", HttpStatus.BAD_REQUEST),
@@ -22,7 +22,13 @@ public enum ErrorEnum {
     INVALID_REFRESHTOKEN_SIGNATRUE("RETOKEN_02", "RefreshToken 의 서명이 올바르지 않습니다.", HttpStatus.BAD_REQUEST),
     EXPRIED_REFRESHTOKEN("RETOKEN_03", "RefreshToken 이 만료되었습니다.", HttpStatus.BAD_REQUEST),
     MALFORMED_REFRESHTOKEN("RETOKEN_04", "올바르지 않은 RefreshToken 의 구조입니다.", HttpStatus.BAD_REQUEST),
-    REFRESHTOKEN_NULL("RETOKEN_05", "요청하신 RefreshToken 이 비어있습니다. 헤더를 확인하세요", HttpStatus.BAD_REQUEST)
+    REFRESHTOKEN_NULL("RETOKEN_05", "요청하신 RefreshToken 이 비어있습니다. 헤더를 확인하세요", HttpStatus.BAD_REQUEST),
+
+    //aws
+    THUMBNAIL_NULL("AWSS3_01","사진을 선택하지 않으셨습니다. 사진을 선택해주세요. ",HttpStatus.BAD_REQUEST),
+    INVALID_THUMBNAIL("AWSS3_02", "유효하지 않은 사진 파일 확장자입니다.", HttpStatus.BAD_REQUEST),
+    IMAGES_NULL("AWSS3_03","사진을 선택하지 않으셨습니다. 사진을 선택해주세요. ",HttpStatus.BAD_REQUEST),
+    INVALID_IMAGE("AWSS3_04", "유효하지 않은 사진 파일 확장자입니다.", HttpStatus.BAD_REQUEST)
     ;
 
 

@@ -35,13 +35,26 @@ dependencies {
     // https://mvnrepository.com/artifact/commons-io/commons-io
     implementation 'commons-io:commons-io:2.6'
     implementation 'commons-lang:commons-lang:2.6'
+    // https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload
+    implementation 'commons-fileupload:commons-fileupload:1.4'
+
     implementation 'com.googlecode.json-simple:json-simple:1.1.1'
     // https://mvnrepository.com/artifact/org.apache.httpcomponents/httpcore
-    implementation 'org.apache.httpcomponents:httpcore:4.3.2'
+    implementation 'org.apache.httpcomponents:httpcore:4.4.14'
+    // https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient
+    implementation 'org.apache.httpcomponents:httpclient:4.5.13'
+
 
     // https://mvnrepository.com/artifact/org.aspectj/aspectjweaver
     implementation 'org.aspectj:aspectjweaver:1.9.5'
+    // https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-s3
+    implementation 'com.amazonaws:aws-java-sdk-s3:1.11.1034'
+    // https://mvnrepository.com/artifact/org.jsoup/jsoup
+    implementation 'org.jsoup:jsoup:1.13.1'
 
+
+    implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+    implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
 }
 
 test {
