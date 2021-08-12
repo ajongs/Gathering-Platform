@@ -40,7 +40,7 @@ public class BoardServiceImpl implements BoardService{
             throw new RequestException(ErrorEnum.INVALID_THUMBNAIL);
         }
         Map<String, String> url = new HashMap<>();
-        url.put("URL", awsS3.upload(multipartFile, true));
+        url.put("Thumbnail_URL", awsS3.upload(multipartFile, true));
         return url;
     }
 

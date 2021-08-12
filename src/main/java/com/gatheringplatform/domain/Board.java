@@ -1,13 +1,17 @@
 package com.gatheringplatform.domain;
 
 
+import io.swagger.annotations.ApiModelProperty;
+
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
 public class Board {
     //게시판 데이터
+    @ApiModelProperty(hidden = true)
     private long id;
     @NotNull
+    @ApiModelProperty(hidden = true)
     private String author;
     @NotNull
     private String category;
@@ -16,8 +20,11 @@ public class Board {
     private String thumbnail;
     @NotNull
     private String content;
+    @ApiModelProperty(hidden = true)
     private Timestamp created_at;
+    @ApiModelProperty(hidden = true)
     private Timestamp updated_at;
+    @ApiModelProperty(hidden = true)
     private Boolean is_deleted;
 
     //상세 일정
