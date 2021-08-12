@@ -2,9 +2,7 @@ package com.gatheringplatform.service;
 
 import com.gatheringplatform.domain.Reply;
 
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 public interface ReplyService {
 
