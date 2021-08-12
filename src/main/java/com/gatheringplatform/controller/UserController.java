@@ -50,6 +50,7 @@ public class UserController {
     @ApiOperation(value = "토큰을 사용해서 api호출이 되는지 확인", notes = "access token을 이용하여 로그인이 필요한 api가 잘 호출되는 지 확인하는 api입니다.",
     authorizations = @Authorization(value = "JWT"))
     public ResponseEntity check(){
+        System.out.println("pullRequest");
         return new ResponseEntity(new DefaultResponse("@Auth 잘됌", HttpStatus.OK), HttpStatus.OK);
     }
     @PostMapping(value = "/refresh")

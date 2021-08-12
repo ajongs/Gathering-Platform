@@ -2,6 +2,7 @@ package com.gatheringplatform.service;
 
 import com.gatheringplatform.domain.User;
 import com.gatheringplatform.enums.ErrorEnum;
+import com.gatheringplatform.exception.AccessTokenException;
 import com.gatheringplatform.exception.RefreshTokenException;
 import com.gatheringplatform.exception.RequestException;
 import com.gatheringplatform.mapper.UserMapper;
@@ -113,5 +114,25 @@ public class UserServiceImpl implements UserService{
             }
             return newAccessToken;
         }
+    }
+
+    @Override
+    public String getLoginNickname() {
+        Map<String, Object> payload = getTokenPayload();
+        return payload.get("nickname").toString();
+    }
+
+    private Map<String, Object> getTokenPayload(){
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+
+        String token = request.getHeader(header);
+        Boolean flag = jwt.validateToken(token, true);
+        if(!flag){
+            throw new AccessTokenException(ErrorEnum.INVALID_ACCESSTOKEN);
+        }
+        else{
+            return jwt.getPayload(token, true);
+        }
+
     }
 }
