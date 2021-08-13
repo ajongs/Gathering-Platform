@@ -11,6 +11,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,6 +31,9 @@ public class BoardServiceImpl implements BoardService{
 
     @Autowired
     BoardMapper boardMapper;
+
+    @Value("${categories}")
+    String[] categories;
 
     @Override
     public Map<String, String> uploadThumbNail(MultipartFile multipartFile) throws IOException {
@@ -89,8 +93,40 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public List<Board> getBoardList(int pageNum) {
+    public List<Board> getBoardList(String category, int pageNum) {
+        //카테고리가 유효하지 않을때
+        Boolean validCategory = false;
+        for(String c : categories){
+            if(category.equals(c)){
+                validCategory=true;
+                break;
+            }
+        }
+        if(!validCategory){
+            throw new RequestException(ErrorEnum.INVALID_CATEGORY);
+        }
+
+        //해당 페이지가 존재하지 않을때
+        if(pageNum==0){
+            throw new RequestException(ErrorEnum.NON_EXISTED_PAGE);
+        }
+
         int startIndex = (pageNum-1)*10;
-        return boardMapper.getBoardList(startIndex);
+
+        //DB에 담겨진 인덱스를 초과한 페이지를 요청했을 때
+        if(boardMapper.countBoardByCategory(category) < startIndex){
+            throw new RequestException(ErrorEnum.NON_EXISTED_PAGE);
+        }
+
+        Map<String, Object> parameter = new HashMap<>();
+        parameter.put("category", category);
+        parameter.put("startIndex", startIndex);
+        return boardMapper.getBoardList(parameter);
+    }
+
+    @Override
+    public DefaultResponse modifyBoard(int board_id) {
+
+        return new DefaultResponse("게시물이 성공적으로 변경되었습니다.", HttpStatus.OK);
     }
 }

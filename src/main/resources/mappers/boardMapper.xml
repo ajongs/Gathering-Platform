@@ -10,7 +10,7 @@
             (author,category,title,thumbnail,content,created_at,start_at,finish_at,frequency,numOfPeople,place,fee,min_age,max_age)
             values(#{author},#{category},#{title},#{thumbnail},#{content},now(),#{start_at},#{finish_at},#{frequency},#{numOfPeople},#{place},#{fee},#{min_age},#{max_age})
     </insert>
-    <select id="getBoardList" parameterType="_int" resultType="Board">
+    <select id="getBoardList" parameterType="java.util.HashMap" resultType="Board">
         SELECT id,
                author,
                category,
@@ -20,6 +20,13 @@
                created_at
         FROM board
         WHERE is_deleted = false
+        AND category = #{category}
         LIMIT #{startIndex}, 10
+    </select>
+    <select id="countBoardByCategory" parameterType="string" resultType="_int">
+        SELECT COUNT(id)
+        FROM board
+        WHERE is_deleted=false
+        AND category = #{category}
     </select>
 </mapper>

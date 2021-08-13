@@ -12,5 +12,6 @@ import java.util.Map;
 public interface BoardMapper {
     long insertBoard(Board board);
     String insertImages(Map imageList);
-    List<Board> getBoardList(int startIndex);
+    List<Board> getBoardList(Map parameter);
+    int countBoardByCategory(String category);
 }

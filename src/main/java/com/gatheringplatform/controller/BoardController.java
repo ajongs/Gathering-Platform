@@ -43,9 +43,17 @@ public class BoardController {
     }
 
     //게시판 조회 api, 페이징 처리
-    @GetMapping(value = "/{pageNum}")
+    @GetMapping(value = "/{category}/{pageNum}")
     @ApiOperation(value = "게시판 데이터 조회",notes = "게시판을 조회하는 api입니다.\n페이지당 10개의 목록을 보여줍니다.")
-    public ResponseEntity getBoardList(@PathVariable int pageNum){
-        return new ResponseEntity(boardService.getBoardList(pageNum), HttpStatus.OK);
+    public ResponseEntity getBoardList(@PathVariable String category, @PathVariable int pageNum){
+        return new ResponseEntity(boardService.getBoardList(category, pageNum), HttpStatus.OK);
     }
+    //게시물 수정
+    @Auth
+    @ApiOperation(value = "게시물 내용 수정 api", notes = "게시물 내용을 수정합니다.", authorizations = @Authorization(value = "JWT"))
+    @PostMapping(value = "/{board_id}")
+    public ResponseEntity modifyBoard(@PathVariable int board_id){
+        return new ResponseEntity(boardService.modifyBoard(board_id), HttpStatus.OK);
+    }
+    //게시물 삭제
 }
