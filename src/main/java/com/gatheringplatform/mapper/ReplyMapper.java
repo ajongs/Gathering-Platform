@@ -19,6 +19,7 @@ public interface ReplyMapper {
     String getContentByNumber(@Param("post_no") Long postNo, @Param("reply_no") Long replyNo); // 댓글 내용 가져오기
     String getWriterByNumber(@Param("post_no") Long postNo, @Param("reply_no") Long replyNo); // 댓글 작성자 가져오기
     Long getCreatedAtByNumber(@Param("post_no") Long postNo, @Param("reply_no") Long replyNo); // 댓글을 쓴 시간 가져오기
+    Boolean getIsDeletedByNumber(@Param("post_no") Long postNo, @Param("reply_no") Long replyNo); // 댓글의 삭제 여부 가져오기
 
     void insert(Reply reply); // 댓글 쓰기
     void update(Reply reply); // 댓글 수정하기

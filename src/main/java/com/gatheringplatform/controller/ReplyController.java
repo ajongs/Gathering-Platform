@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController // JSON 형태로 객체 데이터를 반환하기 위한 컨트롤러
-@RequestMapping(value = "/reply/")
+@RequestMapping(value = "/board/{board_seq}/reply")
 public class ReplyController {
 
     @Autowired
@@ -30,7 +30,7 @@ public class ReplyController {
 
     // 개별 댓글 보기
     @GetMapping(value = "/{replyNo}")
-    public ResponseEntity viewOne(@RequestParam long postNo, @RequestParam long replyNo, HttpServletResponse response) {
+    public ResponseEntity view(@RequestParam long postNo, @RequestParam long replyNo, HttpServletResponse response) {
         return new ResponseEntity(replyService.view(postNo, replyNo), HttpStatus.OK);
     }
 

@@ -6,13 +6,27 @@
 
 <mapper namespace="com.gatheringplatform.mapper.ReplyMapper">
     <select id="getRepliesByNumber" resultType="Reply" parameterType="Long">
-        SELECT *
+        SELECT post_no,
+               reply_no,
+               parent_reply_no,
+               content,
+               writer_nickname,
+               writer_id,
+               created_at,
+               is_deleted
         FROM post_reply
         WHERE post_no = #{post_no}
         ORDER BY parent_reply_no and reply_no
     </select>
     <select id="getReplyByNumber" resultType="Reply" parameterType="Long">
-        SELECT *
+        SELECT post_no,
+               reply_no,
+               parent_reply_no,
+               content,
+               writer_nickname,
+               writer_id,
+               created_at,
+               is_deleted
         FROM post_reply
         WHERE post_no = #{post_no}
           AND reply_no = #{reply_no}
@@ -41,8 +55,14 @@
         WHERE post_no = #{post_no}
           AND reply_no = #{reply_no}
     </select>
-    <select id="getWriterByNumber" resultType="String" parameterType="Long">
-        SELECT writer
+    <select id="getWriterNicknameByNumber" resultType="String" parameterType="Long">
+        SELECT writer_nickname
+        FROM post_reply
+        WHERE post_no = #{post_no}
+          AND reply_no = #{reply_no}
+    </select>
+    <select id="getWriterIdByNumber" resultType="String" parameterType="Long">
+        SELECT writer_id
         FROM post_reply
         WHERE post_no = #{post_no}
           AND reply_no = #{reply_no}
@@ -53,28 +73,34 @@
         WHERE post_no = #{post_no}
           AND reply_no = #{replyNo}
     </select>
-
+    <select id="getIsDeletedByNumber" resultType="boolean" parameterType="Long">
+        SELECT is_deleted
+        FROM post_reply
+        WHERE post_no = #{post_no}
+          AND reply_no = #{replyNo}
+    </select>
     <insert id="insert" parameterType="Reply">
-        INSERT INTO post_reply(post_no, reply_no, parent_reply_no, content, writer, created_at)
+        INSERT INTO post_reply(post_no, reply_no, parent_reply_no, content, writer_nickname, writer_id, created_at,
+                               is_deleted)
         values (#{post_no},
                 #{reply_no},
                 #{parent_reply_no},
                 #{content},
-                #{writer},
-                current_timestamp())
+                #{writer_nickname},
+                #{writer_id},
+                current_timestamp(),
+                false)
     </insert>
-
     <update id="update" parameterType="Reply">
         UPDATE post_reply
         SET content = #{content}
         WHERE post_no = #{post_no}
           AND reply_no = #{reply_no}
     </update>
-
-    <delete id="delete" parameterType="Reply">
-        DELETE
-        FROM post_reply
-        WHERE post_no = #{post_no}
-          AND reply_no = #{reply_no}
-    </delete>
+    <update id="delete" parameterType="Reply"> # 삭제 기능을 soft delete로 구현
+    UPDATE post_reply
+    SET is_deleted = true
+    WHERE post_no = #{post_no}
+      AND reply_no = #{reply_no}
+    </update>
 </mapper>

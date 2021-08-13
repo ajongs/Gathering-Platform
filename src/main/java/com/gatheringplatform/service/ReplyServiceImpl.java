@@ -5,6 +5,7 @@ import com.gatheringplatform.mapper.ReplyMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -15,24 +16,13 @@ public class ReplyServiceImpl implements ReplyService {
     @Autowired
     private ReplyMapper replyMapper;
 
-    @Override
+    @Override // 개별 댓글 반환
     public Reply view(Long postNo, Long replyNo) { // 해당 게시물의 특정 댓글 반환
         return replyMapper.getReplyByNumber(postNo, replyNo);
     }
 
     @Override
     public List<Reply> viewAll(Long postNo) { // 해당 게시물의 전체 댓글 목록 반환
-        /* 테스트 용도 */
-        List<Reply> list = replyMapper.getRepliesByNumber(postNo);
-        // replyMapper.getRepliesByNumber(postNo);를 하면 long 자료형 값은 0이 나오고 timestamp 자료형 값은 null이 나옴
-        System.out.println("게시물의 전체 댓글 목록:" + list.get(0).getPost_no() + "/" + list.get(0).getReply_no()
-                           + "/" + list.get(0).getParent_reply_no() + "/" + list.get(0).getContent());
-        System.out.println(list.get(1).getPost_no() + "/" + list.get(1).getReply_no()
-                           + "/" + list.get(1).getParent_reply_no() + "/" + list.get(1).getContent());
-        System.out.println(list.get(2).getPost_no() + "/" + list.get(2).getReply_no()
-                           + "/" + list.get(2).getParent_reply_no() + "/" + list.get(2).getContent());
-        /**/
-
         return replyMapper.getRepliesByNumber(postNo);
     }
 
