@@ -31,7 +31,7 @@ public class ExceptionController {
         }
         if(defaultException == null){
             e.printStackTrace();
-            return new ResponseEntity(new DefaultResponse("예기치 못한 예외가 발생 하였습니다.", HttpStatus.BAD_REQUEST), HttpStatus.BAD_REQUEST);
+            defaultException = new DefaultException(ErrorEnum.UNDEFINED_EXCEPTION);
         }
         return new ResponseEntity(defaultException, HttpStatus.BAD_REQUEST);
     }
