@@ -10,4 +10,16 @@
             (author,category,title,thumbnail,content,created_at,start_at,finish_at,frequency,numOfPeople,place,fee,min_age,max_age)
             values(#{author},#{category},#{title},#{thumbnail},#{content},now(),#{start_at},#{finish_at},#{frequency},#{numOfPeople},#{place},#{fee},#{min_age},#{max_age})
     </insert>
+    <select id="getBoardList" parameterType="_int" resultType="Board">
+        SELECT id,
+               author,
+               category,
+               title,
+               thumbnail,
+               content,
+               created_at
+        FROM board
+        WHERE is_deleted = false
+        LIMIT #{startIndex}, 10
+    </select>
 </mapper>

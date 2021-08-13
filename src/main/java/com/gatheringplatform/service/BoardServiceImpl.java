@@ -89,7 +89,8 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public List<Board> getBoardList() {
-        return null;
+    public List<Board> getBoardList(int pageNum) {
+        int startIndex = (pageNum-1)*10;
+        return boardMapper.getBoardList(startIndex);
     }
 }

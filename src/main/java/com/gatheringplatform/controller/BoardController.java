@@ -43,9 +43,9 @@ public class BoardController {
     }
 
     //게시판 조회 api, 페이징 처리
-    @GetMapping()
-    @ApiOperation(value = "미완성 **호출하지마세요**",notes = "")
-    public ResponseEntity getBoardList(){
-        return new ResponseEntity(boardService.getBoardList(), HttpStatus.OK);
+    @GetMapping(value = "/{pageNum}")
+    @ApiOperation(value = "게시판 데이터 조회",notes = "게시판을 조회하는 api입니다.\n페이지당 10개의 목록을 보여줍니다.")
+    public ResponseEntity getBoardList(@PathVariable int pageNum){
+        return new ResponseEntity(boardService.getBoardList(pageNum), HttpStatus.OK);
     }
 }

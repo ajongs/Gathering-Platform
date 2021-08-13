@@ -1,11 +1,12 @@
 package com.gatheringplatform.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
-
+@JsonInclude(JsonInclude.Include.NON_DEFAULT)
 public class Board {
     //게시판 데이터
     @ApiModelProperty(hidden = true)
