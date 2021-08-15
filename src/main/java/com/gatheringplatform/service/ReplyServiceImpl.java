@@ -16,9 +16,15 @@ public class ReplyServiceImpl implements ReplyService {
     @Autowired
     private ReplyMapper replyMapper;
 
+    @Autowired
+    private UserService userService;
+
+//    @Autowired
+//    private BoardService boardService;
+
     @Override // 개별 댓글 반환
-    public Reply view(Long postNo, Long replyNo) { // 해당 게시물의 특정 댓글 반환
-        return replyMapper.getReplyByNumber(postNo, replyNo);
+    public Reply view(Long replyNo) { // 해당 게시물의 특정 댓글 반환
+        return replyMapper.getReplyByNumber(replyNo);
     }
 
     @Override
@@ -28,13 +34,8 @@ public class ReplyServiceImpl implements ReplyService {
 
     @Override
     public void post(Reply reply) {
-        List<Reply> replyList = viewAll(reply.getPost_no());
-        if (replyList.isEmpty()) {
-            reply.setReply_no(1);
-        }
-        else {
-            reply.setReply_no(replyList.size() + 1);
-        }
+//        reply.setPost_no(boardService.getId()); // merge 후 추가
+//        reply.setWriter_nickname(userService.getLoginNickname()); // merge 후 추가
         replyMapper.insert(reply);
     }
 

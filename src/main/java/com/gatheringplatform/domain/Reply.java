@@ -12,28 +12,31 @@ import java.sql.Timestamp;
 
 public class Reply {
 
+//    @ApiModelProperty(hidden = true) // merge 후 추가
     private long post_no; // 게시물 번호
 
-    private long reply_no; // 댓글 번호
+    @ApiModelProperty(hidden = true)
+    private long reply_no; // post_reply 전체를 대상으로 하는 댓글 번호
 
-    private long parent_reply_no; // 부모 댓글의 번호(대댓글일 경우에, 자신의 부모 댓글 번호를 말한다. 만약, root 댓글일 경우에는 0으로 한다.)
+//    @ApiModelProperty(hidden = true) // merge 후 추가
+    private long parent_reply_no; // 부모 댓글의 번호
 
     // 내용
     @NotBlank(message = "댓글 내용을 적어주세요.", groups = {ReplyGroups.class})
     private String content;
 
     // 댓글 쓴 사람의 닉네임
+//    @ApiModelProperty(hidden = true) // merge 후 추가
     private String writer_nickname;
-
-    // 댓글 쓴 사람의 ID
-    private String writer_id;
 
     // 작성 시간
 //    @DateTimeFormat(pattern = "yyyy-MM-DD'T'HH:mm:ss")
+    @ApiModelProperty(hidden = true)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
     private Timestamp created_at;
 
     // 게시물 삭제 여부
+    @ApiModelProperty(hidden = true)
     private Boolean is_deleted;
 
     public long getPost_no() {
@@ -68,14 +71,6 @@ public class Reply {
         this.content = content;
     }
 
-    public Timestamp getCreated_at() {
-        return created_at;
-    }
-
-    public void setCreated_at(Timestamp created_at) {
-        this.created_at = created_at;
-    }
-
     public String getWriter_nickname() {
         return writer_nickname;
     }
@@ -84,12 +79,12 @@ public class Reply {
         this.writer_nickname = writer_nickname;
     }
 
-    public String getWriter_id() {
-        return writer_id;
+    public Timestamp getCreated_at() {
+        return created_at;
     }
 
-    public void setWriter_id(String writer_id) {
-        this.writer_id = writer_id;
+    public void setCreated_at(Timestamp created_at) {
+        this.created_at = created_at;
     }
 
     public Boolean getIs_deleted() {
