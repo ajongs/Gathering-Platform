@@ -3,11 +3,13 @@ package com.gatheringplatform.domain;
 
 
 import com.gatheringplatform.annotation.ValidationGroups;
+import io.swagger.annotations.ApiModelProperty;
 
 import javax.validation.constraints.*;
 import java.sql.Timestamp;
 
 public class User {
+    @ApiModelProperty(hidden = true)
     private long no;
 
     @Pattern(regexp = "^[a-zA-Z0-9]{5,15}$", groups = {ValidationGroups.signUp.class}, message = "id에 특수문자를 사용할 수 없습니다.")
@@ -37,9 +39,13 @@ public class User {
     @Email(message = "이메일 형식이 올바르지 않습니다.")
     private String email;
 
+    @ApiModelProperty(hidden = true)
     private String salt;
+    @ApiModelProperty(hidden = true)
     private Boolean is_deleted;
+    @ApiModelProperty(hidden = true)
     private Timestamp created_at;
+    @ApiModelProperty(hidden = true)
     private Timestamp updated_at;
 
     public long getNo() {
