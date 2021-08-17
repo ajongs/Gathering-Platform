@@ -9,7 +9,7 @@ group = 'com'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
-bootWar{
+bootWar {
     archiveBaseName = 'ROOT'
     archiveFileName = 'ROOT.war'
 
@@ -51,6 +51,7 @@ dependencies {
     implementation 'com.amazonaws:aws-java-sdk-s3:1.11.1034'
     // https://mvnrepository.com/artifact/org.jsoup/jsoup
     implementation 'org.jsoup:jsoup:1.13.1'
+
 
 
     implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'

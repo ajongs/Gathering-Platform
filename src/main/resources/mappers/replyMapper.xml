@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gatheringplatform.mapper.ReplyMapper">
+    <select id="getRepliesByNumber" resultType="Reply" parameterType="Long">
+        SELECT reply_no,
+               post_no,
+               parent_reply_no,
+               content,
+               writer_nickname,
+               created_at,
+               is_deleted
+        FROM post_reply
+        WHERE post_no = #{post_no}
+        ORDER BY reply_no
+    </select>
+    <select id="getReplyByNumber" resultType="Reply" parameterType="Long">
+        SELECT reply_no,
+               post_no,
+               parent_reply_no,
+               content,
+               writer_nickname,
+               created_at,
+               is_deleted
+        FROM post_reply
+        WHERE reply_no = #{reply_no}
+    </select>
+    <insert id="insert" parameterType="Reply">
+        INSERT INTO post_reply(reply_no, post_no, parent_reply_no, content, writer_nickname, created_at,
+                               is_deleted)
+        values (null,
+                #{post_no},
+                #{parent_reply_no},
+                #{content},
+                #{writer_nickname},
+                current_timestamp(),
+                false)
+    </insert>
+    <update id="update" parameterType="Reply">
+        UPDATE post_reply
+        SET content = #{content}
+        WHERE reply_no = #{reply_no}
+    </update>
+    <update id="delete" parameterType="Reply"> # 삭제 기능을 soft delete로 구현
+    UPDATE post_reply
+    SET is_deleted = true
+    WHERE reply_no = #{reply_no}
+    </update>
+</mapper>

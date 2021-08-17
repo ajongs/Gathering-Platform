@@ -6,15 +6,15 @@
 
 <mapper namespace="com.gatheringplatform.mapper.UserMapper">
     <insert id="signUp" parameterType="User">
-        INSERT INTO user(no, id,pw,nickname,born,email,salt,created_at)
-        values(null,
-               #{id},
-               #{pw},
-               #{nickname},
-               #{born},
-               #{email},
-               #{salt},
-               now())
+        INSERT INTO user(no, id, pw, nickname, born, email, salt, created_at)
+        values (null,
+                #{id},
+                #{pw},
+                #{nickname},
+                #{born},
+                #{email},
+                #{salt},
+                now())
     </insert>
     <select id="getNicknameByNickname" parameterType="String" resultType="String">
         SELECT nickname
@@ -33,7 +33,7 @@
     </select>
     <select id="getUserById" resultType="User" parameterType="String">
         SELECT *
-        FROM  user
+        FROM user
         WHERE id = #{id}
     </select>
     <select id="getSalt" resultType="String" parameterType="String">
