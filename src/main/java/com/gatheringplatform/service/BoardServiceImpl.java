@@ -11,6 +11,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,6 +31,9 @@ public class BoardServiceImpl implements BoardService{
 
     @Autowired
     BoardMapper boardMapper;
+
+    @Value("${categories}")
+    String[] categories;
 
     @Override
     public Map<String, String> uploadThumbNail(MultipartFile multipartFile) throws IOException {
@@ -89,7 +93,73 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public List<Board> getBoardList() {
-        return null;
+    public List<Board> getBoardList(String category, long pageNum) {
+        //카테고리가 유효하지 않을때
+        Boolean validCategory = false;
+        for(String c : categories){
+            if(category.equals(c)){
+                validCategory=true;
+                break;
+            }
+        }
+        if(!validCategory){
+            throw new RequestException(ErrorEnum.INVALID_CATEGORY);
+        }
+
+        //해당 페이지가 존재하지 않을때
+        if(pageNum==0){
+            throw new RequestException(ErrorEnum.NON_EXISTED_PAGE);
+        }
+
+        long startIndex = (pageNum-1)*10;
+
+        //DB에 담겨진 인덱스를 초과한 페이지를 요청했을 때
+        if(boardMapper.countBoardByCategory(category) < startIndex){
+            throw new RequestException(ErrorEnum.NON_EXISTED_PAGE);
+        }
+
+        Map<String, Object> parameter = new HashMap<>();
+        parameter.put("category", category);
+        parameter.put("startIndex", startIndex);
+        return boardMapper.getBoardList(parameter);
+    }
+
+    @Override
+    public Board getBoard(long board_id) {
+        Board board = boardMapper.getBoard(board_id);
+        //삭제된 페이지이거나 id값이 존재하지 않는 경우
+        if(board==null){
+            throw new RequestException(ErrorEnum.DELETED_PAGE);
+        }
+        return board;
+    }
+
+    @Override
+    public DefaultResponse modifyBoard(long board_id, Board board) {
+        //권한검사
+        verifyAuthorization(board_id);
+
+        board.setId(board_id);
+        boardMapper.modifyBoard(board);
+
+        return new DefaultResponse("게시물이 성공적으로 변경되었습니다.", HttpStatus.OK);
+    }
+
+    @Override
+    public DefaultResponse deleteBoard(long board_id) {
+        //권한 검사
+        verifyAuthorization(board_id);
+
+        boardMapper.deleteBoard(board_id);
+        return new DefaultResponse("게시물이 성공적으로 삭제되었습니다.", HttpStatus.OK);
+    }
+
+    private void verifyAuthorization(long board_id){
+        String boardAuthor = boardMapper.getAuthor(board_id);
+        String loginNickname = userService.getLoginNickname();
+
+        if(!boardAuthor.equals(loginNickname)){
+            throw new RequestException(ErrorEnum.UNAUTHORIZED);
+        }
     }
 }

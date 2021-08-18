@@ -2,12 +2,13 @@ package com.gatheringplatform.domain;
 
 
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.gatheringplatform.annotation.ValidationGroups;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.validation.constraints.*;
 import java.sql.Timestamp;
-
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class User {
     @ApiModelProperty(hidden = true)
     private long no;
