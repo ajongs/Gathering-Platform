@@ -93,7 +93,7 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public List<Board> getBoardList(String category, int pageNum) {
+    public List<Board> getBoardList(String category, long pageNum) {
         //카테고리가 유효하지 않을때
         Boolean validCategory = false;
         for(String c : categories){
@@ -111,7 +111,7 @@ public class BoardServiceImpl implements BoardService{
             throw new RequestException(ErrorEnum.NON_EXISTED_PAGE);
         }
 
-        int startIndex = (pageNum-1)*10;
+        long startIndex = (pageNum-1)*10;
 
         //DB에 담겨진 인덱스를 초과한 페이지를 요청했을 때
         if(boardMapper.countBoardByCategory(category) < startIndex){
@@ -125,8 +125,41 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public DefaultResponse modifyBoard(int board_id) {
+    public Board getBoard(long board_id) {
+        Board board = boardMapper.getBoard(board_id);
+        //삭제된 페이지이거나 id값이 존재하지 않는 경우
+        if(board==null){
+            throw new RequestException(ErrorEnum.DELETED_PAGE);
+        }
+        return board;
+    }
+
+    @Override
+    public DefaultResponse modifyBoard(long board_id, Board board) {
+        //권한검사
+        verifyAuthorization(board_id);
+
+        board.setId(board_id);
+        boardMapper.modifyBoard(board);
 
         return new DefaultResponse("게시물이 성공적으로 변경되었습니다.", HttpStatus.OK);
+    }
+
+    @Override
+    public DefaultResponse deleteBoard(long board_id) {
+        //권한 검사
+        verifyAuthorization(board_id);
+
+        boardMapper.deleteBoard(board_id);
+        return new DefaultResponse("게시물이 성공적으로 삭제되었습니다.", HttpStatus.OK);
+    }
+
+    private void verifyAuthorization(long board_id){
+        String boardAuthor = boardMapper.getAuthor(board_id);
+        String loginNickname = userService.getLoginNickname();
+
+        if(!boardAuthor.equals(loginNickname)){
+            throw new RequestException(ErrorEnum.UNAUTHORIZED);
+        }
     }
 }

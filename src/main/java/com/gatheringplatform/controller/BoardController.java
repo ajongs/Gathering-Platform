@@ -44,16 +44,28 @@ public class BoardController {
 
     //게시판 조회 api, 페이징 처리
     @GetMapping(value = "/{category}/{pageNum}")
-    @ApiOperation(value = "게시판 데이터 조회",notes = "게시판을 조회하는 api입니다.\n페이지당 10개의 목록을 보여줍니다.")
-    public ResponseEntity getBoardList(@PathVariable String category, @PathVariable int pageNum){
+    @ApiOperation(value = "게시판 리스트 조회",notes = "요청하신 카테고리에 해당하는 게시물 리스트를 조회하는 api입니다.\n페이지당 10개의 목록을 보여줍니다.")
+    public ResponseEntity getBoardList(@PathVariable String category, @PathVariable long pageNum){
         return new ResponseEntity(boardService.getBoardList(category, pageNum), HttpStatus.OK);
+    }
+    //게시물 상세 조회 api
+    @GetMapping(value = "/{board_id}")
+    @ApiOperation(value = "게시물 상세조회 api", notes = "요청하신 id 값의 게시물의 상세정보를 조회하는 api입니다.")
+    public ResponseEntity getBoard(@PathVariable long board_id){
+        return new ResponseEntity(boardService.getBoard(board_id), HttpStatus.OK);
     }
     //게시물 수정
     @Auth
     @ApiOperation(value = "게시물 내용 수정 api", notes = "게시물 내용을 수정합니다.", authorizations = @Authorization(value = "JWT"))
-    @PostMapping(value = "/{board_id}")
-    public ResponseEntity modifyBoard(@PathVariable int board_id){
-        return new ResponseEntity(boardService.modifyBoard(board_id), HttpStatus.OK);
+    @PutMapping(value = "/{board_id}")
+    public ResponseEntity modifyBoard(@PathVariable long board_id, @RequestBody Board board){
+        return new ResponseEntity(boardService.modifyBoard(board_id, board), HttpStatus.OK);
     }
     //게시물 삭제
+    @Auth
+    @ApiOperation(value = "게시물 삭제 api", notes = "게시물을 삭제합니다.", authorizations = @Authorization(value = "JWT"))
+    @DeleteMapping(value = "/{board_id}")
+    public ResponseEntity deleteBoard(@PathVariable long board_id){
+        return new ResponseEntity(boardService.deleteBoard(board_id), HttpStatus.OK);
+    }
 }

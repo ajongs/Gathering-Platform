@@ -12,6 +12,8 @@ public interface BoardService {
     public Map<String, String> uploadThumbNail(MultipartFile multipartFile) throws IOException;
     public Map<String, String> uploadImages(MultipartFile[] multipartFiles) throws IOException;
     public DefaultResponse insertBoard(Board board) throws IOException;
-    public List<Board> getBoardList(String category, int pageNum);
-    public DefaultResponse modifyBoard(int board_id);
+    public List<Board> getBoardList(String category, long pageNum);
+    public DefaultResponse modifyBoard(long board_id, Board board);
+    public Board getBoard(long board_id);
+    public DefaultResponse deleteBoard(long board_id);
 }

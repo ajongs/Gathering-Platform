@@ -23,10 +23,47 @@
         AND category = #{category}
         LIMIT #{startIndex}, 10
     </select>
-    <select id="countBoardByCategory" parameterType="string" resultType="_int">
+    <select id="countBoardByCategory" parameterType="string" resultType="long">
         SELECT COUNT(id)
         FROM board
         WHERE is_deleted=false
         AND category = #{category}
     </select>
-</mapper>
+    <select id="getBoard" parameterType="long" resultType="Board">
+        SELECT id,
+               author,
+               category,
+               title,
+               thumbnail,
+               content,
+               created_at,
+               start_at,
+               finish_at,
+               frequency,
+               numOfPeople,
+               place,
+               fee,
+               min_age,
+               max_age
+        FROM board
+        WHERE is_deleted = false
+        AND id = #{board_id}
+    </select>
+    <select id="getAuthor" parameterType="long" resultType="string">
+        SELECT author
+        FROM board
+        WHERE id = #{board_id}
+        AND is_deleted = false
+    </select>
+    <update id="modifyBoard" parameterType="Board">
+        UPDATE board
+        SET title =#{title}, thumbnail=#{thumbnail}, content=#{content}, updated_at=now(), start_at = #{start_at},
+            finish_at=#{finish_at}, frequency=#{frequency}, numOfPeople=#{numOfPeople}, place=#{place}, min_age=#{min_age}, max_age =#{max_age}
+        WHERE id = #{id}
+    </update>
+    <update id="deleteBoard" parameterType="long">
+        UPDATE board
+        SET is_deleted = true
+        WHERE id=#{board_id}
+    </update>
+</mapper>`

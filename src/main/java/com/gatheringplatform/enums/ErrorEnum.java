@@ -12,6 +12,8 @@ public enum ErrorEnum {
     INVALID_ID("LOGIN_01", "유효하지 않은 아이디입니다", HttpStatus.BAD_REQUEST),
     INVALID_PW("LOGIN_02", "비밀번호가 올바르지 않습니다.", HttpStatus.BAD_REQUEST),
 
+    UNAUTHORIZED("UNAUTHORIZED", "요청 권한이 없습니다.", HttpStatus.UNAUTHORIZED),
+
 
     INVALID_ACCESSTOKEN("ACTOKEN_01", "유효하지 않은 AccessToken 입니다.", HttpStatus.UNAUTHORIZED),
     INVALID_ACCESSTOKEN_SIGNATURE("ACTOKEN_02", "AccessToken의 서명이 올바르지 않습니다.", HttpStatus.UNAUTHORIZED),

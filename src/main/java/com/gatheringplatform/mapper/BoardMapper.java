@@ -13,5 +13,9 @@ public interface BoardMapper {
     long insertBoard(Board board);
     String insertImages(Map imageList);
     List<Board> getBoardList(Map parameter);
-    int countBoardByCategory(String category);
+    long countBoardByCategory(String category);
+    Board getBoard(long board_id);
+    String getAuthor(long board_id);
+    void modifyBoard(Board board);
+    void deleteBoard(long board_id);
 }
