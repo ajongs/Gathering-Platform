@@ -2,10 +2,7 @@ package com.gatheringplatform.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.gatheringplatform.annotation.ReplyGroups;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import io.swagger.annotations.ApiModelProperty;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.NumberFormat;
 
 import javax.validation.constraints.NotBlank;
 import java.sql.Timestamp;
