@@ -62,7 +62,6 @@ public class UserServiceImpl implements UserService{
         //솔트값 만들기
         String salt = UUID.randomUUID().toString() + new Date().toString();
         user.setSalt(salt);
-
         //mapper 호출
         userMapper.signUp(user);
     }

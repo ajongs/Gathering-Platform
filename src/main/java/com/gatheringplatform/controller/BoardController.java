@@ -13,8 +13,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
-@RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
+@RestController
 @RequestMapping(value = "/board")
 public class BoardController {
     @Autowired
@@ -22,14 +22,16 @@ public class BoardController {
     //게시물 섬네일 업로드 api
     @Auth
     @ApiOperation(value = "섬네일 업로드",notes = "아마존 S3 서버에 이미지파일을 업로드하고 해당 url을 반환 받습니다.\n" +
-            "반환 받은 url은 게시판 등록 api의 thumbnail 항목에 입력하셔야 합니다.",authorizations = @Authorization(value = "JWT"))
+            "반환 받은 url은 게시판 등록 api의 thumbnail 항목에 입력하셔야 합니다.\n확장자는 jpeg, png만 가능합니다.\n" +
+            "사진 파일의 최대 크기는 10MB입니다.",authorizations = @Authorization(value = "JWT"))
     @PostMapping(value="/thumbnail")
     public ResponseEntity uploadThumbnail(MultipartFile multipartFile) throws IOException {
         return new ResponseEntity(boardService.uploadThumbNail(multipartFile), HttpStatus.OK);
     }
     @Auth
     @ApiOperation(value = "텍스트에디터에서 사용될 이미지 업로드",notes = "아마존 S3 서버에 이미지파일을 업로드하고 해당 url을 반환 받습니다.\n" +
-            "반환 받은 url은 텍스트에디터에서 img태그의 src로 사용될 것입니다.",authorizations = @Authorization(value = "JWT"))
+            "반환 받은 url은 텍스트에디터에서 img태그의 src로 사용될 것입니다.\n한 사진 파일의 최대크기는 10MB" +
+            "\n요청가능한 사진 파일 최대 개수는 5장입니다.",authorizations = @Authorization(value = "JWT"))
     @PostMapping(value="/images")
     public ResponseEntity uploadImages(MultipartFile[] files) throws IOException {
         return new ResponseEntity(boardService.uploadImages(files), HttpStatus.OK);
