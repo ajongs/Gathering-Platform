@@ -1,8 +1,11 @@
 package com.gatheringplatform.service;
 
 import com.gatheringplatform.domain.Reply;
+import com.gatheringplatform.format.DefaultResponse;
 import com.gatheringplatform.mapper.ReplyMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -19,9 +22,6 @@ public class ReplyServiceImpl implements ReplyService {
     @Autowired
     private UserService userService;
 
-//    @Autowired
-//    private BoardService boardService;
-
     @Override // 개별 댓글 반환
     public Reply view(Long replyNo) { // 해당 게시물의 특정 댓글 반환
         return replyMapper.getReplyByNumber(replyNo);
@@ -33,19 +33,22 @@ public class ReplyServiceImpl implements ReplyService {
     }
 
     @Override
-    public void post(Reply reply) {
-//        reply.setPost_no(boardService.getId()); // merge 후 추가
-//        reply.setWriter_nickname(userService.getLoginNickname()); // merge 후 추가
+    public ResponseEntity post(Reply reply) {
+        reply.setWriter_nickname(userService.getLoginNickname()); // merge 후 추가
+        System.out.println("Writer_nickname: " + reply.getWriter_nickname());
         replyMapper.insert(reply);
+        return new ResponseEntity(new DefaultResponse("댓글 등록 완료!", HttpStatus.OK), HttpStatus.OK);
     }
 
     @Override
-    public void update(Reply reply) {
+    public ResponseEntity update(Reply reply) {
         replyMapper.update(reply);
+        return new ResponseEntity(new DefaultResponse("댓글 수정 완료!", HttpStatus.OK), HttpStatus.OK);
     }
 
     @Override
-    public void delete(Reply reply) {  // 부모 댓글이 삭제되면 자식 댓글까지 모두 삭제
+    public ResponseEntity delete(Reply reply) {
         replyMapper.delete(reply);
+        return new ResponseEntity(new DefaultResponse("댓글 삭제 완료!", HttpStatus.OK), HttpStatus.OK);
     }
 }

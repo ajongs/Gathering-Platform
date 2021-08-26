@@ -1,6 +1,7 @@
 package com.gatheringplatform.service;
 
 import com.gatheringplatform.domain.Reply;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -10,9 +11,9 @@ public interface ReplyService {
 
     List<Reply> viewAll(Long postNo); // 해당 게시물의 전체 댓글 목록 반환
 
-    void post(Reply reply);
+    ResponseEntity post(Reply reply);
 
-    void update(Reply reply);
+    ResponseEntity update(Reply reply);
 
-    void delete(Reply reply);
+    ResponseEntity delete(Reply reply);
 }

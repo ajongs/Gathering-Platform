@@ -9,13 +9,13 @@ import java.sql.Timestamp;
 
 public class Reply {
 
-//    @ApiModelProperty(hidden = true) // merge 후 추가
+    //    @ApiModelProperty(hidden = true) // merge 후 추가
     private long post_no; // 게시물 번호
 
     @ApiModelProperty(hidden = true)
     private long reply_no; // post_reply 전체를 대상으로 하는 댓글 번호
 
-//    @ApiModelProperty(hidden = true) // merge 후 추가
+    //    @ApiModelProperty(hidden = true) // merge 후 추가
     private long parent_reply_no; // 부모 댓글의 번호
 
     // 내용
@@ -23,11 +23,10 @@ public class Reply {
     private String content;
 
     // 댓글 쓴 사람의 닉네임
-//    @ApiModelProperty(hidden = true) // merge 후 추가
+    @ApiModelProperty(hidden = true) // merge 후 추가
     private String writer_nickname;
 
     // 작성 시간
-//    @DateTimeFormat(pattern = "yyyy-MM-DD'T'HH:mm:ss")
     @ApiModelProperty(hidden = true)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
     private Timestamp created_at;
