@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -66,6 +68,10 @@ public class BoardServiceImpl implements BoardService{
 
     @Override
     public DefaultResponse insertBoard(Board board) throws IOException {
+        //max age가 min age보다 낮은경우
+        if(board.getMin_age() > board.getMax_age()){
+            throw new RequestException(ErrorEnum.INVALID_MAX_AGE);
+        }
         //TODO 1. 토큰에서 nickname 뽑아오고, insert to Board DB
         board.setAuthor(userService.getLoginNickname());
         System.out.println("Author : "+board.getAuthor());
@@ -141,6 +147,7 @@ public class BoardServiceImpl implements BoardService{
 
         board.setId(board_id);
         boardMapper.modifyBoard(board);
+        //TODO 사진이 변경되었다면 hard 삭제 추가해야함
 
         return new DefaultResponse("게시물이 성공적으로 변경되었습니다.", HttpStatus.OK);
     }
@@ -151,6 +158,8 @@ public class BoardServiceImpl implements BoardService{
         verifyAuthorization(board_id);
 
         boardMapper.deleteBoard(board_id);
+        //TODO 사진 변경시 s3 hard 삭제 추가해야함
+
         return new DefaultResponse("게시물이 성공적으로 삭제되었습니다.", HttpStatus.OK);
     }
 
