@@ -36,7 +36,11 @@ public enum ErrorEnum {
     //page
     NON_EXISTED_PAGE("PAGE_01", "존재하지 않는 페이지입니다.", HttpStatus.BAD_REQUEST),
     INVALID_CATEGORY("PAGE_02", "유효하지 않은 카테고리입니다.", HttpStatus.BAD_REQUEST),
-    DELETED_PAGE("PAGE_03", "삭제되었거나 존재하지 않는 페이지입니다.", HttpStatus.BAD_REQUEST)
+    DELETED_PAGE("PAGE_03", "삭제되었거나 존재하지 않는 페이지입니다.", HttpStatus.BAD_REQUEST),
+
+    //upload-board
+    INVALID_MAX_AGE("MAX_AGE", "최대나이가 최소나이보다 작을 수 없습니다.", HttpStatus.BAD_REQUEST),
+    JSON_CONVERT_FAIL("JSON_FAIL", "요청하신 json 데이터의 형식이 올바른지 확인하세요.", HttpStatus.BAD_REQUEST)
     ;
 
 
