@@ -37,7 +37,7 @@ public class User {
     private String born;
 
     @NotBlank(message = "이메일을 입력해주세요.",groups = {ValidationGroups.signUp.class})
-    @Email(message = "이메일 형식이 올바르지 않습니다.")
+    @Email(message = "이메일 형식이 올바르지 않습니다.",groups = {ValidationGroups.signUp.class})
     private String email;
 
     @ApiModelProperty(hidden = true)

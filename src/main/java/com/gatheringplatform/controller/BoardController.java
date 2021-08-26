@@ -1,6 +1,7 @@
 package com.gatheringplatform.controller;
 
 import com.gatheringplatform.annotation.Auth;
+import com.gatheringplatform.annotation.ValidationGroups;
 import com.gatheringplatform.domain.Board;
 import com.gatheringplatform.service.BoardService;
 import io.swagger.annotations.ApiOperation;
@@ -8,6 +9,7 @@ import io.swagger.annotations.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -40,7 +42,7 @@ public class BoardController {
     @Auth
     @ApiOperation(value = "게시물 등록 API",notes = "게시물을 등록하는 api입니다. content는 html 원본그대로 전달해주시면 됩니다.",authorizations = @Authorization(value = "JWT"))
     @PostMapping()
-    public ResponseEntity insertBoard(@RequestBody Board board) throws IOException {
+    public ResponseEntity insertBoard(@RequestBody @Validated(ValidationGroups.uploadBoard.class) Board board) throws IOException {
         return new ResponseEntity(boardService.insertBoard(board), HttpStatus.OK);
     }
 

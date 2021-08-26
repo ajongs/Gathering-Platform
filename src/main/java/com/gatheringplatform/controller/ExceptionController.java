@@ -1,11 +1,13 @@
 package com.gatheringplatform.controller;
 
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.gatheringplatform.enums.ErrorEnum;
 import com.gatheringplatform.exception.DefaultException;
 import com.gatheringplatform.exception.RequestException;
 import com.gatheringplatform.format.DefaultResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -29,9 +31,14 @@ public class ExceptionController {
             defaultException.setErrorMessage(bindingResult.getFieldError().getDefaultMessage());
             defaultException.setDetailTrace(e.getStackTrace()[0].toString());
         }
+        if(e instanceof HttpMessageNotReadableException){
+            defaultException = new DefaultException(ErrorEnum.JSON_CONVERT_FAIL);
+            defaultException.setDetailTrace(e.getStackTrace()[0].toString());
+        }
         if(defaultException == null){
             e.printStackTrace();
             defaultException = new DefaultException(ErrorEnum.UNDEFINED_EXCEPTION);
+            defaultException.setDetailTrace(e.getStackTrace()[0].toString());
         }
         return new ResponseEntity(defaultException, HttpStatus.BAD_REQUEST);
     }
