@@ -117,7 +117,7 @@ public class BoardServiceImpl implements BoardService{
             throw new RequestException(ErrorEnum.NON_EXISTED_PAGE);
         }
 
-        long startIndex = (pageNum-1)*10;
+        long startIndex = (pageNum-1)*12;
 
         //DB에 담겨진 인덱스를 초과한 페이지를 요청했을 때
         if(boardMapper.countBoardByCategory(category) < startIndex){

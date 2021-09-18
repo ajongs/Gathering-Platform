@@ -26,7 +26,7 @@ public class Board {
     @Size(max=130, groups = {ValidationGroups.uploadBoard.class}, message = "섬네일 파일이름 또는 주소가 130글자를 초과할 수 없습니다.")
     private String thumbnail;
 
-    @Size(max=65535, groups = {ValidationGroups.uploadBoard.class}, message="상세설명이 65535 byte 를 초과할 수 없습니다.")
+    //@Size(max=65535, groups = {ValidationGroups.uploadBoard.class}, message="상세설명이 65535 byte 를 초과할 수 없습니다.")
     @NotNull(groups = {ValidationGroups.uploadBoard.class})
     private String content;
 

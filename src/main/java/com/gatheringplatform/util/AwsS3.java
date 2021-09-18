@@ -41,4 +41,7 @@ public class AwsS3 {
 
         return amazonS3.getUrl(bucketName, filename).toString();
     }
+    public String deleteImages(String filepath){
+        return null;
+    }
 }

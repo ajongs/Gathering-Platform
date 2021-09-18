@@ -21,7 +21,7 @@
         FROM board
         WHERE is_deleted = false
         AND category = #{category}
-        LIMIT #{startIndex}, 10
+        LIMIT #{startIndex}, 12
     </select>
     <select id="countBoardByCategory" parameterType="string" resultType="long">
         SELECT COUNT(id)
