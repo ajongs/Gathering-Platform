@@ -163,9 +163,13 @@ public class BoardServiceImpl implements BoardService{
     public DefaultResponse deleteBoard(long board_id) {
         //권한 검사
         verifyAuthorization(board_id);
-
-        boardMapper.deleteBoard(board_id);
         //TODO 사진 변경시 s3 hard 삭제 추가해야함
+        Board board = boardMapper.getBoard(board_id);
+        String thumbnail = board.getThumbnail();
+        if(thumbnail != defaultThumb){
+            awsS3.deleteImages(thumbnail);
+        }
+        boardMapper.deleteBoard(board_id);
 
         return new DefaultResponse("게시물이 성공적으로 삭제되었습니다.", HttpStatus.OK);
     }
@@ -177,5 +181,8 @@ public class BoardServiceImpl implements BoardService{
         if(!boardAuthor.equals(loginNickname)){
             throw new RequestException(ErrorEnum.UNAUTHORIZED);
         }
+    }
+    public void deleteImages(String filepath){
+        awsS3.deleteImages(filepath);
     }
 }

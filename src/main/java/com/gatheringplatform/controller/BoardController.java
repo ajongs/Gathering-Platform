@@ -72,4 +72,10 @@ public class BoardController {
     public ResponseEntity deleteBoard(@PathVariable long board_id){
         return new ResponseEntity(boardService.deleteBoard(board_id), HttpStatus.OK);
     }
+
+    @DeleteMapping(value = "/deleteImages")
+    public ResponseEntity deleteImages(String filepath){
+        boardService.deleteImages(filepath);
+        return new ResponseEntity("삭제되었습니다.", HttpStatus.OK);
+    }
 }

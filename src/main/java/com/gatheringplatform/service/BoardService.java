@@ -16,4 +16,5 @@ public interface BoardService {
     public DefaultResponse modifyBoard(long board_id, Board board);
     public Board getBoard(long board_id);
     public DefaultResponse deleteBoard(long board_id);
+    public void deleteImages(String filepath);
 }
