@@ -132,6 +132,5 @@ public class UserServiceImpl implements UserService{
         else{
             return jwt.getPayload(token, true);
         }
-
     }
 }
