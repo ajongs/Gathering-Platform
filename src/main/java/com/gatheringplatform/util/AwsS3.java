@@ -41,7 +41,12 @@ public class AwsS3 {
 
         return amazonS3.getUrl(bucketName, filename).toString();
     }
-    public String deleteImages(String filepath){
-        return null;
+    public void deleteImages(String filepath){
+        //https://gathering-s3.s3.ap-northeast-2.amazonaws.com/
+        String filename = filepath.substring(53);
+        boolean existedObject = amazonS3.doesObjectExist(bucket, filename);
+        if(existedObject){
+            amazonS3.deleteObject(bucket, filename);
+        }
     }
 }
