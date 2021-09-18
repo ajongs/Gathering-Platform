@@ -37,6 +37,9 @@ public class BoardServiceImpl implements BoardService{
     @Value("${categories}")
     String[] categories;
 
+    @Value("${defaultThumb}")
+    String defaultThumb;
+
     @Override
     public Map<String, String> uploadThumbNail(MultipartFile multipartFile) throws IOException {
         if(multipartFile==null){
@@ -71,6 +74,10 @@ public class BoardServiceImpl implements BoardService{
         //max age가 min age보다 낮은경우
         if(board.getMin_age() > board.getMax_age()){
             throw new RequestException(ErrorEnum.INVALID_MAX_AGE);
+        }
+        //섬네일 등록 안했다면 기본섬네일로 등록
+        if(board.getThumbnail()==null){
+            board.setThumbnail(defaultThumb);
         }
         //TODO 1. 토큰에서 nickname 뽑아오고, insert to Board DB
         board.setAuthor(userService.getLoginNickname());
