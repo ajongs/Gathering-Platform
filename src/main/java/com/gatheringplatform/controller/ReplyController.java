@@ -54,7 +54,7 @@ public class ReplyController {
     @ApiOperation(value = "댓글 수정", notes = "댓글을 수정하는 API 입니다. 댓글의 content를 수정합니다.",
                   authorizations = @Authorization(value = "JWT"))
     @PutMapping(value = "/{reply_id}")
-    public ResponseEntity update(@PathVariable long reply_id, @RequestBody Reply reply) {
+    public ResponseEntity update(@PathVariable long board_id, @PathVariable long reply_id, @RequestBody Reply reply) {
         return new ResponseEntity(replyService.update(reply_id, reply), HttpStatus.OK);
     }
 
@@ -63,7 +63,7 @@ public class ReplyController {
     @ApiOperation(value = "댓글 삭제", notes = "댓글을 삭제하는 API 입니다. soft delete로 구현되어 있습니다.",
                   authorizations = @Authorization(value = "JWT"))
     @PatchMapping(value = "/{reply_id}")
-    public ResponseEntity delete(@PathVariable long reply_id) {
+    public ResponseEntity delete(@PathVariable long board_id, @PathVariable long reply_id) {
         return new ResponseEntity(replyService.delete(reply_id), HttpStatus.OK);
     }
 }

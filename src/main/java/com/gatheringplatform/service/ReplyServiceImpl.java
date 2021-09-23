@@ -23,6 +23,9 @@ public class ReplyServiceImpl implements ReplyService {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private BoardService boardService;
+
     @Value("${categories}")
     String[] categories;
 
@@ -41,14 +44,14 @@ public class ReplyServiceImpl implements ReplyService {
     @Override
     public List<Reply> viewAll(long post_id, long page_num) { // 해당 게시물의 전체 댓글 목록 반환
 
-        //해당 페이지가 존재하지 않을때
+        // 해당 페이지가 존재하지 않을때
         if (page_num == 0) {
             throw new RequestException(ErrorEnum.NON_EXISTED_PAGE);
         }
 
         long startIndex = (page_num - 1) * 5;
 
-        //DB에 담겨진 인덱스를 초과한 페이지를 요청했을 때
+        // DB에 담겨진 인덱스를 초과한 페이지를 요청했을 때
         if (replyMapper.countReplyByPost(post_id) < startIndex) {
             throw new RequestException(ErrorEnum.NON_EXISTED_PAGE);
         }
@@ -62,8 +65,12 @@ public class ReplyServiceImpl implements ReplyService {
     @Override
     public DefaultResponse post(Reply reply) {
         reply.setAuthor(userService.getLoginNickname());
-        System.out.println("Author: " + reply.getAuthor());
+        // System.out.println("Author: " + reply.getAuthor());
+        if (boardService.getBoard(reply.getPost_id()) == null) {
+            throw new RequestException(ErrorEnum.NON_EXISTED_PAGE);
+        }
         replyMapper.insert(reply);
+
         return new DefaultResponse("댓글 등록 완료!", HttpStatus.OK);
     }
 
@@ -71,8 +78,10 @@ public class ReplyServiceImpl implements ReplyService {
     public DefaultResponse update(long reply_id, Reply reply) {
         // 권한 검사
         verifyAuthorization(reply_id);
-
         reply.setId(reply_id);
+        if (boardService.getBoard(reply.getPost_id()) == null) {
+            throw new RequestException(ErrorEnum.NON_EXISTED_PAGE);
+        }
         replyMapper.update(reply);
 
         return new DefaultResponse("댓글 수정 완료!", HttpStatus.OK);
@@ -82,7 +91,6 @@ public class ReplyServiceImpl implements ReplyService {
     public DefaultResponse delete(long reply_id) {
         // 권한 검사
         verifyAuthorization(reply_id);
-
         replyMapper.delete(reply_id);
 
         return new DefaultResponse("댓글 삭제 완료!", HttpStatus.OK);
