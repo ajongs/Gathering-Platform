@@ -151,10 +151,19 @@ public class BoardServiceImpl implements BoardService{
     public DefaultResponse modifyBoard(long board_id, Board board) {
         //권한검사
         verifyAuthorization(board_id);
+        Board exBoard = boardMapper.getBoard(board_id);
 
+        //아이디 세팅
         board.setId(board_id);
+        //변경된 새로운 board 객체 저장
         boardMapper.modifyBoard(board);
-        //TODO 사진이 변경되었다면 hard 삭제 추가해야함
+
+        //TODO 섬네일 사진 변경되었다면 hard 삭제 추가
+        String thumbnail = exBoard.getThumbnail();
+        if(thumbnail != defaultThumb){
+            awsS3.deleteImages(thumbnail);
+        }
+        boardMapper.deleteBoard(board_id);
 
         return new DefaultResponse("게시물이 성공적으로 변경되었습니다.", HttpStatus.OK);
     }
