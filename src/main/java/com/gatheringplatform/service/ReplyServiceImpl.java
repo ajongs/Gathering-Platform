@@ -8,10 +8,8 @@ import com.gatheringplatform.mapper.ReplyMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
 import java.util.*;
 
 @Service // 핵심 비즈니스 로직
@@ -65,7 +63,6 @@ public class ReplyServiceImpl implements ReplyService {
     @Override
     public DefaultResponse post(Reply reply) {
         reply.setAuthor(userService.getLoginNickname());
-        // System.out.println("Author: " + reply.getAuthor());
         if (boardService.getBoard(reply.getPost_id()) == null) {
             throw new RequestException(ErrorEnum.NON_EXISTED_PAGE);
         }

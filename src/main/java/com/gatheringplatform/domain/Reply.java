@@ -23,16 +23,16 @@ public class Reply {
     private String content;
 
     // 댓글 쓴 사람의 닉네임
-//    @ApiModelProperty(hidden = true) // merge 후 추가
+    @ApiModelProperty(hidden = true)
     private String author;
 
     // 작성 시간
-//    @ApiModelProperty(hidden = true)
+    @ApiModelProperty(hidden = true)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
     private Timestamp created_at;
 
     // 게시물 삭제 여부
-//    @ApiModelProperty(hidden = true)
+    @ApiModelProperty(hidden = true)
     private Boolean is_deleted;
 
     public long getId() {
