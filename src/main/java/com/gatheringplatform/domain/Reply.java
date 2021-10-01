@@ -12,10 +12,8 @@ public class Reply {
     @ApiModelProperty(hidden = true)
     private long id; // post_reply 전체를 대상으로 하는 댓글 번호
 
-    //    @ApiModelProperty(hidden = true) // merge 후 추가
     private long post_id; // 게시물 번호
 
-    //    @ApiModelProperty(hidden = true) // merge 후 추가
     private long parent_id; // 부모 댓글의 번호
 
     // 내용
