@@ -5,48 +5,59 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.gatheringplatform.mapper.ReplyMapper">
-    <select id="getRepliesByNumber" resultType="Reply" parameterType="Long">
-        SELECT reply_no,
-               post_no,
-               parent_reply_no,
+    <select id="getReplies" resultType="Reply" parameterType="java.util.HashMap">
+        SELECT id,
+               post_id,
+               parent_id,
                content,
-               writer_nickname,
+               author,
                created_at,
                is_deleted
         FROM post_reply
-        WHERE post_no = #{post_no}
-        ORDER BY reply_no
+        WHERE post_id = #{post_id}
+        AND is_deleted = false
+        ORDER BY parent_id
+        LIMIT #{startIndex}, 5
     </select>
-    <select id="getReplyByNumber" resultType="Reply" parameterType="Long">
-        SELECT reply_no,
-               post_no,
-               parent_reply_no,
+    <select id="getReply" resultType="Reply" parameterType="long">
+        SELECT id,
+               post_id,
+               parent_id,
                content,
-               writer_nickname,
+               author,
                created_at,
                is_deleted
         FROM post_reply
-        WHERE reply_no = #{reply_no}
+        WHERE id = #{id}
+    </select>
+    <select id="countReplyByPost" parameterType="string" resultType="long">
+        SELECT COUNT(*)
+        FROM post_reply
+        WHERE post_id = #{post_id}
+    </select>
+    <select id="getAuthor" resultType="string" parameterType="long">
+        SELECT author
+        FROM post_reply
+        WHERE id = #{id}
     </select>
     <insert id="insert" parameterType="Reply">
-        INSERT INTO post_reply(reply_no, post_no, parent_reply_no, content, writer_nickname, created_at,
-                               is_deleted)
+        INSERT INTO post_reply(id, post_id, parent_id, content, author, created_at, is_deleted)
         values (null,
-                #{post_no},
-                #{parent_reply_no},
+                #{post_id},
+                #{parent_id},
                 #{content},
-                #{writer_nickname},
+                #{author},
                 current_timestamp(),
                 false)
     </insert>
     <update id="update" parameterType="Reply">
         UPDATE post_reply
         SET content = #{content}
-        WHERE reply_no = #{reply_no}
+        WHERE id = #{id}
     </update>
     <update id="delete" parameterType="Reply"> # 삭제 기능을 soft delete로 구현
     UPDATE post_reply
     SET is_deleted = true
-    WHERE reply_no = #{reply_no}
+    WHERE id = #{id}
     </update>
 </mapper>

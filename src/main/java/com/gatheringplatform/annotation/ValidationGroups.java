@@ -4,4 +4,5 @@ public class ValidationGroups {
     public interface logIn{};
     public interface signUp{};
     public interface uploadBoard{};
+    public interface uploadReply{};
 }
