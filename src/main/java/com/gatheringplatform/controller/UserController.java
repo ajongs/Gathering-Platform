@@ -50,12 +50,19 @@ public class UserController {
     @ApiOperation(value = "토큰을 사용해서 api호출이 되는지 확인", notes = "access token을 이용하여 로그인이 필요한 api가 잘 호출되는 지 확인하는 api입니다.",
     authorizations = @Authorization(value = "JWT"))
     public ResponseEntity check(){
-        System.out.println("pullRequest");
         return new ResponseEntity(new DefaultResponse("@Auth 잘됌", HttpStatus.OK), HttpStatus.OK);
     }
     @PostMapping(value = "/refresh")
     @ApiOperation(value = "토큰 재발급", notes = "refresh 토큰을 이용하여 access token을 재발급 받는 api입니다.\n만약 refresh 토큰의 유효기간이 7일미만 이라면 refresh 토큰도 함께 발급됩니다.")
     public ResponseEntity refresh(){
         return new ResponseEntity(userService.refresh(), HttpStatus.OK);
+    }
+
+    @Auth
+    @GetMapping(value = "/nickname")
+    @ApiOperation(value = "token으로 nickname 얻어오는 api", notes = "access token을 이용하여 nickname을 얻어오는 api입니다.",
+            authorizations = @Authorization(value = "JWT"))
+    public ResponseEntity getNickname(){
+        return new ResponseEntity(userService.getLoginPayload(), HttpStatus.OK);
     }
 }

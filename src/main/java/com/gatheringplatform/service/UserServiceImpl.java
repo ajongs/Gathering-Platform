@@ -121,6 +121,22 @@ public class UserServiceImpl implements UserService{
         return payload.get("nickname").toString();
     }
 
+    public Map<String, Object> getLoginPayload(){
+        Map<String, Object> payload = getTokenPayload();
+        return payload;
+    }
+
+    @Override
+    public String getLoginNickname(String token) {
+        Boolean flag = jwt.validateToken(token, true);
+        if(!flag){
+            throw new AccessTokenException(ErrorEnum.INVALID_ACCESSTOKEN);
+        }
+        else{
+            return jwt.getPayload(token, true).get("nickname").toString();
+        }
+    }
+
     private Map<String, Object> getTokenPayload(){
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 
@@ -133,4 +149,6 @@ public class UserServiceImpl implements UserService{
             return jwt.getPayload(token, true);
         }
     }
+
+
 }

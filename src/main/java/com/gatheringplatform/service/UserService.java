@@ -9,4 +9,6 @@ public interface UserService {
     Map<String, String> logIn(User user);
     Map<String, String> refresh();
     String getLoginNickname();
+    Map<String, Object> getLoginPayload();
+    String getLoginNickname(String token);
 }

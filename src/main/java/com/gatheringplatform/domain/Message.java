@@ -4,10 +4,12 @@ import java.sql.Timestamp;
 
 public class Message {
     public long no;
+    public long chatRoomId;
     public String sender;
     public String receiver;
     public String content;
     public Timestamp time;
+
 
     public long getNo() {
         return no;
@@ -15,6 +17,14 @@ public class Message {
 
     public void setNo(long no) {
         this.no = no;
+    }
+
+    public long getChatRoomId() {
+        return chatRoomId;
+    }
+
+    public void setChatRoomId(long chatRoomId) {
+        this.chatRoomId = chatRoomId;
     }
 
     public Timestamp getTime() {
