@@ -20,7 +20,7 @@ import java.io.IOException;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController // JSON 형태로 객체 데이터를 반환하기 위한 컨트롤러
-@RequestMapping(value = "/board/{board_id}")
+@RequestMapping(value = "/board/{board_id}/reply")
 public class ReplyController {
 
     @Autowired

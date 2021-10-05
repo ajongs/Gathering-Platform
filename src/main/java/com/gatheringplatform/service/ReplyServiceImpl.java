@@ -40,14 +40,14 @@ public class ReplyServiceImpl implements ReplyService {
     }
 
     @Override
-    public List<Reply> viewAll(long post_id, long page_num) { // 해당 게시물의 전체 댓글 목록 반환
+    public List<Reply> viewAll(long post_id, long pageNum) { // 해당 게시물의 전체 댓글 목록 반환
 
         // 해당 페이지가 존재하지 않을때
-        if (page_num == 0) {
+        if (pageNum == 0) {
             throw new RequestException(ErrorEnum.NON_EXISTED_PAGE);
         }
 
-        long startIndex = (page_num - 1) * 5;
+        long startIndex = (pageNum - 1) * 5;
 
         // DB에 담겨진 인덱스를 초과한 페이지를 요청했을 때
         if (replyMapper.countReplyByPost(post_id) < startIndex) {
