@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello WS</title>
+    <link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <script src="/webjars/jquery/jquery.min.js"></script>
+    <script src="/webjars/sockjs-client/sockjs.min.js"></script>
+    <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+    <script src="/createChat.js"></script>
+</head>
+<body>
+<div class="container" style="margin-top: 50px">
+    <div class="row">
+        <div class="col-md-12">
+            <form class="form-inline">
+                <div class="form-group">
+                    <label for="createChat">채팅 초대</label>
+                    <input type="text" id="createChat" class="form-control" placeholder="채팅할 상대방 아이디 입력...">
+                </div>
+                <button id="createBtn" class="btn btn-default" type="button">1:1 대화</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
