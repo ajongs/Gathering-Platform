@@ -14,8 +14,8 @@
                created_at,
                is_deleted
         FROM post_reply
-        WHERE post_id = #{post_id}
-        AND is_deleted = false
+        WHERE is_deleted = false
+        AND post_id = #{post_id}
         ORDER BY parent_id
         LIMIT #{startIndex}, 5
     </select>
@@ -30,7 +30,7 @@
         FROM post_reply
         WHERE id = #{id}
     </select>
-    <select id="countReplyByPost" parameterType="string" resultType="long">
+    <select id="countReplyByPost" parameterType="long" resultType="long">
         SELECT COUNT(*)
         FROM post_reply
         WHERE post_id = #{post_id}
